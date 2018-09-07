@@ -1,0 +1,130 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fcu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:dd="using:HoloLensAppManager.Services.DragAndDrop"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:h="using:HoloLensAppManager.Helpers"
+    xmlns:local="using:HoloLensAppManager.ViewModels"
+    xmlns:storage="using:Windows.Storage"
+    x:Class="HoloLensAppManager.Views.UploadPage"
+    x:Name="Root"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <local:NullConverter x:Key="NullableIntConverter"/>
+        <h:BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
+    <Page.Style>
+        <StaticResource ResourceKey="PageStyle"/>
+    </Page.Style>
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource MediumLeftRightMargin}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="TitleRow" Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--  Adaptive triggers  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <TextBlock
+            x:Name="TitlePage"
+            x:Uid="Upload_Title"
+            Style="{StaticResource PageTitleStyle}" />
+
+        <Grid 
+            Grid.Row="1" 
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+            AllowDrop="True">
+
+            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+                Place your content here.-->
+            <dd:DragDropService.Configuration>
+                <dd:DropConfiguration DropStorageItemsCommand="{x:Bind Path=ViewModel.GetStorageItemsCommand}" />
+            </dd:DragDropService.Configuration>
+
+            <ScrollViewer>
+                <StackPanel Margin="10">
+                    <StackPanel.Resources>
+                        <Thickness x:Key="HeadingPadding">0 20 0 6</Thickness>
+                        <Thickness x:Key="VersionDotPadding">4 0</Thickness>
+                    </StackPanel.Resources>
+
+
+                    <TextBlock Text="App Name" Style="{StaticResource HeadingStyle}" />
+                    <TextBox Grid.Row="0" Text="{x:Bind Mode=TwoWay, Path=ViewModel.Name}"/>
+
+                    <TextBlock Text="Developer" Style="{StaticResource HeadingStyle}"  Margin="{StaticResource HeadingPadding}"/>
+                    <TextBox Grid.Row="0" Text="{x:Bind Mode=TwoWay, Path=ViewModel.DeveloperName}"/>
+
+
+                    <TextBlock Text="Version" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version1}" TextAlignment="Right" MinWidth="30"/>
+                        <!--
+                        <TextBox Text="1" TextAlignment="Right" MinWidth="40"/>
+                        -->
+                        <TextBlock Text="." FontWeight="ExtraBold" VerticalAlignment="Bottom" Margin="{StaticResource VersionDotPadding}"/>
+                        <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version2}" TextAlignment="Right" MinWidth="30"/>
+                        <TextBlock Text="." FontWeight="ExtraBold" VerticalAlignment="Bottom" Margin="{StaticResource VersionDotPadding}"/>
+                        <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version3}" TextAlignment="Right" MinWidth="30"/>
+                        <TextBlock Text="." FontWeight="ExtraBold" VerticalAlignment="Bottom" Margin="{StaticResource VersionDotPadding}"/>
+                        <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version4}" TextAlignment="Right" MinWidth="30"/>
+                    </StackPanel>
+
+                    <TextBlock Text="App Package" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
+                    <TextBlock Grid.Row="0" Text="{x:Bind Mode=OneWay, Path=ViewModel.AppPackage.Path}" TextWrapping="Wrap"
+                               Visibility="{x:Bind Converter={StaticResource BoolToVis}, Mode=OneWay, Path=ViewModel.AppPackageExists}"/>
+                    <Button Content="選択" Command="{x:Bind Path=ViewModel.SelectPackageCommand}" Margin="0 6"/>
+
+                    <TextBlock Text="Dependencies" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="追加" Command="{x:Bind Path=ViewModel.AddDependencyCommand}" Margin="0 6"/>
+                        <Button Content="クリア"  Command="{x:Bind Path=ViewModel.ClearDependencyCommand}" Visibility="{x:Bind Converter={StaticResource BoolToVis}, Mode=OneWay, Path=ViewModel.DependenciesFilesExist}" Margin="20 6"/>
+                    </StackPanel>
+
+                    <ListView ItemsSource="{x:Bind Mode=OneWay, Path=ViewModel.DependenciesFiles}" x:Name="lv">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="storage:StorageFile">
+                                <StackPanel>
+                                    <TextBlock Text="{x:Bind Path=Path}" FontSize="16" Foreground="#212121" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="0,1"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                        <ListViewItem Content="dependent file"/>
+                    </ListView>
+
+
+                    <Button Command="{x:Bind Path=ViewModel.UploadCommand}" Content="アップロード" Margin="0 30 0 4"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" FontSize="16px" Foreground="#dc3545"/>
+                        <TextBlock Text="{x:Bind ViewModel.SuccessMessage, Mode=OneWay}" FontSize="16px" Foreground="#28a745"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
