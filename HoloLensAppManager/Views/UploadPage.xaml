@@ -95,8 +95,9 @@
                     </StackPanel>
 
                     <TextBlock x:Uid="App_AppPackage" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
-                    <TextBlock Grid.Row="0" Text="{x:Bind Mode=OneWay, Path=ViewModel.AppPackage.Path}" TextWrapping="Wrap"
-                               Visibility="{x:Bind Converter={StaticResource BoolToVis}, Mode=OneWay, Path=ViewModel.AppPackageExists}"/>
+                    <TextBlock Text="{x:Bind Mode=OneWay, Path=ViewModel.AppPackage.Path}"
+                               Visibility="{x:Bind Converter={StaticResource BoolToVis}, Mode=OneWay, Path=ViewModel.AppPackageExists}"
+                               Style="{StaticResource UploadFileStyle}"/>
                     <Button x:Uid="App_SelectAppPackage" Command="{x:Bind Path=ViewModel.SelectPackageCommand}" Margin="0 6"/>
 
                     <TextBlock Text="Dependencies" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
@@ -109,7 +110,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="storage:StorageFile">
                                 <StackPanel>
-                                    <TextBlock Text="{x:Bind Path=Path}" FontSize="16" Foreground="#212121" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="0,1"/>
+                                    <TextBlock Text="{x:Bind Path=Path}" Style="{StaticResource UploadFileStyle}" HorizontalAlignment="Left" Margin="0,1"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>

@@ -209,7 +209,7 @@
     <value>Upload failed.</value>
   </data>
   <data name="Upload_MissingMessage" xml:space="preserve">
-    <value />
+    <value>You must fill in all of the fields.</value>
   </data>
   <data name="Upload_SuccessMessage" xml:space="preserve">
     <value>{0} has been uploaded successfully.</value>

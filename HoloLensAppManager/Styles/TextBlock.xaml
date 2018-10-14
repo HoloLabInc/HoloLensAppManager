@@ -28,5 +28,26 @@
         <Setter Property="Margin" Value="{StaticResource PageTitleMargin}"/>
     </Style>
 
+    <Style x:Key="InstallAppNameStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="{StaticResource AppNameFontSize}"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="InstallAppInfoStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="UploadFileStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Foreground" Value="{StaticResource ThemeControlForegroundBaseMediumHighBrush}"></Setter>
+    </Style>
 
 </ResourceDictionary>

@@ -332,9 +332,11 @@ namespace HoloLensAppManager.ViewModels
                 AppPackage = appPackage,
                 Dependencies = dependencies,
             };
+
+            var r = ResourceLoader.GetForCurrentView();
+
             if (uploadPackage.IsValid)
             {
-                var r = ResourceLoader.GetForCurrentView();
                 var uploadingMessageTemplate = r.GetString("Upload_UploadingMessage");
                 var uploadingMessage = string.Format(uploadingMessageTemplate, uploadPackage.Name);
 
@@ -345,7 +347,6 @@ namespace HoloLensAppManager.ViewModels
                 indicator?.Hide();
                 indicator = new BusyIndicator()
                 {
-                    //Message = $"{uploadPackage.Name} をアップロードしています。しばらくお待ちください..."
                     Message = uploadingMessage
                 };
                 indicator.Show();
@@ -375,7 +376,7 @@ namespace HoloLensAppManager.ViewModels
             }
             else
             {
-                ErrorMessage = "未入力の項目があります";
+                ErrorMessage = r.GetString("Upload_MissingMessage");
             }
             Uploading = false;
         }

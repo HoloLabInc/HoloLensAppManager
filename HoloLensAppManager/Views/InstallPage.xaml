@@ -101,7 +101,7 @@
                     <TextBlock Text="{x:Bind Mode=OneWay, Path=ViewModel.SuccessMessage}" MaxWidth="{Binding ActualWidth, ElementName=InstallMessage, Mode=OneWay}" TextWrapping="Wrap" FontSize="16px" Foreground="#28a745"/>
                 </StackPanel>
 
-                <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" BorderBrush="Black" BorderThickness="1" Height="1" Margin="0 10" VerticalAlignment="Top"/>
+                <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" BorderBrush="{StaticResource ThemeControlForegroundBaseHighBrush}" BorderThickness="1" Height="1" Margin="0 10" VerticalAlignment="Top"/>
             </Grid>
 
 
@@ -123,16 +123,9 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel>
-                                <!--
-                                <StackPanel Orientation="Horizontal">
-                                -->
-                                <TextBlock Text="{x:Bind Path=AppInfo.Name}" FontSize="24" Foreground="#212121" TextWrapping="Wrap" HorizontalAlignment="Left" />
-                                <TextBlock Text="{x:Bind Path=AppInfo.DeveloperName}" FontSize="14" Foreground="#212121" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="20,0"/>
-                                <!--
-                                </StackPanel>
-                                -->
-
-                                <TextBlock Text="{x:Bind Path=AppInfo.Description}" FontSize="14" Foreground="#666666"  TextWrapping="Wrap" HorizontalAlignment="Left" Margin="20,6"/>
+                                <TextBlock Text="{x:Bind Path=AppInfo.Name}" Style="{StaticResource InstallAppNameStyle}" HorizontalAlignment="Left" />
+                                <TextBlock Text="{x:Bind Path=AppInfo.DeveloperName}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,0"/>
+                                <TextBlock Text="{x:Bind Path=AppInfo.Description}" Foreground="{StaticResource ThemeControlForegroundBaseMediumHighBrush}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,6"/>
                             </StackPanel>
 
                             <ComboBox x:Name="VersionsCombo" Grid.Column="1" Height="30" Width="100" Margin="20 0" ItemsSource="{x:Bind Path=SortedVersions}" DisplayMemberPath="Display" VerticalAlignment="Center"
