@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.Resources;
 using HoloLensAppManager.Helpers;
 using HoloLensAppManager.Models;
 using HoloLensAppManager.Views;
@@ -209,12 +210,8 @@ namespace HoloLensAppManager.ViewModels
 
         public void OnGetStorageItem(IReadOnlyList<IStorageItem> items)
         {
-            Debug.WriteLine($"drag and drop:");
-
             foreach (var item in items)
             {
-                Debug.WriteLine($"drag and drop: {item}");
-
                 if (item is StorageFolder)
                 {
                     Task.Run(async () =>
@@ -241,8 +238,6 @@ namespace HoloLensAppManager.ViewModels
             IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
             foreach (var file in fileList)
             {
-                Debug.WriteLine(file.ToString());
-                Debug.WriteLine(file.FileType);
                 await SelectFile(file);
             }
 
@@ -261,9 +256,6 @@ namespace HoloLensAppManager.ViewModels
             {
                 Debug.WriteLine("folder not found");
             }
-
-
-            Debug.WriteLine(DependenciesFiles.Count);
         }
 
         async Task SelectFile(StorageFile file)
@@ -273,7 +265,6 @@ namespace HoloLensAppManager.ViewModels
             switch (ext)
             {
                 case ".appxbundle":
-                    Debug.WriteLine("app package");
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
                     {
                         AppPackage = file;
@@ -343,14 +334,24 @@ namespace HoloLensAppManager.ViewModels
             };
             if (uploadPackage.IsValid)
             {
+                var r = ResourceLoader.GetForCurrentView();
+                var uploadingMessageTemplate = r.GetString("Upload_UploadingMessage");
+                var uploadingMessage = string.Format(uploadingMessageTemplate, uploadPackage.Name);
+
+                var uploadedMessageTemplate = r.GetString("Upload_SuccessMessage");
+                var uploadedMessage = string.Format(uploadedMessageTemplate, uploadPackage.Name + " " + uploadPackage.Version.ToString());
+
+
                 indicator?.Hide();
                 indicator = new BusyIndicator()
                 {
-                    Message = $"{uploadPackage.Name} をアップロードしています。しばらくお待ちください..."
+                    //Message = $"{uploadPackage.Name} をアップロードしています。しばらくお待ちください..."
+                    Message = uploadingMessage
                 };
                 indicator.Show();
 
-                SuccessMessage = "アップロードしています";
+                SuccessMessage = uploadingMessage;
+
                 bool result = await uploader.Upload(uploadPackage);
                 if (result)
                 {
@@ -363,12 +364,12 @@ namespace HoloLensAppManager.ViewModels
                     AppPackage = null;
                     await ClearDependency();
 
-                    SuccessMessage = $"{uploadPackage.Name} {uploadPackage.Version.ToString()} のアップロードが完了しました";
+                    SuccessMessage = uploadedMessage;
                 }
                 else
                 {
                     SuccessMessage = "";
-                    ErrorMessage = "アップロードに失敗しました";
+                    ErrorMessage = r.GetString("Upload_FailureMessage");
                 }
                 indicator?.Hide();
             }

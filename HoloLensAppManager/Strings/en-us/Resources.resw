@@ -172,7 +172,49 @@
   <data name="App_Version.Text" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="Install_Connect.Content" xml:space="preserve">
+    <value>Check connection</value>
+  </data>
+  <data name="Install_Device.Text" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="Install_Edit.Content" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Install_Install.Content" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Install_IPAddress.PlaceholderText" xml:space="preserve">
+    <value>IP Address of HoloLens (e.g. 192.168.0.2)</value>
+  </data>
+  <data name="Install_Password.Text" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Install_PasswordPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Device Poratl's password</value>
+  </data>
+  <data name="Install_USBConnection.Content" xml:space="preserve">
+    <value>USB connection</value>
+  </data>
+  <data name="Install_Username.Text" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Install_UsernamePlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Device Portal's username</value>
+  </data>
   <data name="Setting_DeleteCache.Content" xml:space="preserve">
     <value>Delete local cache</value>
+  </data>
+  <data name="Upload_FailureMessage" xml:space="preserve">
+    <value>Upload failed.</value>
+  </data>
+  <data name="Upload_MissingMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Upload_SuccessMessage" xml:space="preserve">
+    <value>{0} has been uploaded successfully.</value>
+  </data>
+  <data name="Upload_UploadingMessage" xml:space="preserve">
+    <value>Please wait while {0} is being uploaded.</value>
   </data>
 </root>

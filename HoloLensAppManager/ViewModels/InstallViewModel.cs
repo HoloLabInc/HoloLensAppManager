@@ -374,13 +374,11 @@ namespace HoloLensAppManager.ViewModels
                     switch (eventArgs.Status)
                     {
                         case ApplicationInstallStatus.Completed:
-                            //SuccessMessage = "アプリケーションのインストールが完了しました";
                             SuccessMessage = eventArgs.Message;
                             ErrorMessage = "";
                             break;
                         case ApplicationInstallStatus.Failed:
                             SuccessMessage = "";
-                            //ErrorMessage = "アプリケーションのインストールに失敗しました";
                             ErrorMessage = eventArgs.Message;
                             break;
                     }
