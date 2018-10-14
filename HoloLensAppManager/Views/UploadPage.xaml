@@ -73,14 +73,14 @@
                     </StackPanel.Resources>
 
 
-                    <TextBlock Text="App Name" Style="{StaticResource HeadingStyle}" />
+                    <TextBlock x:Uid="App_AppName" Style="{StaticResource HeadingStyle}" />
                     <TextBox Grid.Row="0" Text="{x:Bind Mode=TwoWay, Path=ViewModel.Name}"/>
 
-                    <TextBlock Text="Developer" Style="{StaticResource HeadingStyle}"  Margin="{StaticResource HeadingPadding}"/>
+                    <TextBlock x:Uid="App_Developer" Style="{StaticResource HeadingStyle}"  Margin="{StaticResource HeadingPadding}"/>
                     <TextBox Grid.Row="0" Text="{x:Bind Mode=TwoWay, Path=ViewModel.DeveloperName}"/>
 
 
-                    <TextBlock Text="Version" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
+                    <TextBlock x:Uid="App_Version" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version1}" TextAlignment="Right" MinWidth="30"/>
                         <!--
@@ -94,15 +94,15 @@
                         <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version4}" TextAlignment="Right" MinWidth="30"/>
                     </StackPanel>
 
-                    <TextBlock Text="App Package" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
+                    <TextBlock x:Uid="App_AppPackage" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
                     <TextBlock Grid.Row="0" Text="{x:Bind Mode=OneWay, Path=ViewModel.AppPackage.Path}" TextWrapping="Wrap"
                                Visibility="{x:Bind Converter={StaticResource BoolToVis}, Mode=OneWay, Path=ViewModel.AppPackageExists}"/>
-                    <Button Content="選択" Command="{x:Bind Path=ViewModel.SelectPackageCommand}" Margin="0 6"/>
+                    <Button x:Uid="App_SelectAppPackage" Command="{x:Bind Path=ViewModel.SelectPackageCommand}" Margin="0 6"/>
 
                     <TextBlock Text="Dependencies" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="追加" Command="{x:Bind Path=ViewModel.AddDependencyCommand}" Margin="0 6"/>
-                        <Button Content="クリア"  Command="{x:Bind Path=ViewModel.ClearDependencyCommand}" Visibility="{x:Bind Converter={StaticResource BoolToVis}, Mode=OneWay, Path=ViewModel.DependenciesFilesExist}" Margin="20 6"/>
+                        <Button x:Uid="App_AddDependency" Command="{x:Bind Path=ViewModel.AddDependencyCommand}" Margin="0 6"/>
+                        <Button x:Uid="App_ClearDependency" Command="{x:Bind Path=ViewModel.ClearDependencyCommand}" Visibility="{x:Bind Converter={StaticResource BoolToVis}, Mode=OneWay, Path=ViewModel.DependenciesFilesExist}" Margin="20 6"/>
                     </StackPanel>
 
                     <ListView ItemsSource="{x:Bind Mode=OneWay, Path=ViewModel.DependenciesFiles}" x:Name="lv">
@@ -118,7 +118,7 @@
                     </ListView>
 
 
-                    <Button Command="{x:Bind Path=ViewModel.UploadCommand}" Content="アップロード" Margin="0 30 0 4"/>
+                    <Button x:Uid="App_Upload" Command="{x:Bind Path=ViewModel.UploadCommand}" Margin="0 30 0 4"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" FontSize="16px" Foreground="#dc3545"/>
                         <TextBlock Text="{x:Bind ViewModel.SuccessMessage, Mode=OneWay}" FontSize="16px" Foreground="#28a745"/>

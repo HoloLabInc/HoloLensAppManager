@@ -40,7 +40,7 @@
                         <Thickness x:Key="VersionDotPadding">4 0</Thickness>
                     </StackPanel.Resources>
 
-                    <Button Content="アプリパッケージのローカルキャッシュを削除" Command="{x:Bind Path=ViewModel.ClearCacheCommand}" Margin="0 6"/>
+                    <Button x:Uid="Setting_deleteCache" Command="{x:Bind Path=ViewModel.ClearCacheCommand}" Margin="0 6"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" FontSize="16px" Foreground="#dc3545"/>
                         <TextBlock Text="{x:Bind ViewModel.SuccessMessage, Mode=OneWay}" FontSize="16px" Foreground="#28a745"/>

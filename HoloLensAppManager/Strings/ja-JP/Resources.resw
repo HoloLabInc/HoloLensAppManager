@@ -118,61 +118,58 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Upload_Title.Text" xml:space="preserve">
-    <value>Upload</value>
+    <value>アップロード</value>
     <comment>Page title for Upload</comment>
   </data>
   <data name="Shell_Upload" xml:space="preserve">
-    <value>Upload</value>
+    <value>アップロード</value>
     <comment>Navigation view item name for Upload</comment>
   </data>
   <data name="Install_Title.Text" xml:space="preserve">
-    <value>Install</value>
+    <value>インストール</value>
     <comment>Page title for Install</comment>
   </data>
   <data name="Shell_Install" xml:space="preserve">
-    <value>Install</value>
+    <value>インストール</value>
     <comment>Navigation view item name for Install</comment>
   </data>
   <data name="EditApplication_Title.Text" xml:space="preserve">
-    <value>Edit</value>
+    <value>編集</value>
     <comment>Page title for Edit</comment>
   </data>
   <data name="Setting_Title.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>設定</value>
     <comment>Page title for Settings</comment>
   </data>
   <data name="Shell_Setting" xml:space="preserve">
-    <value>Settings</value>
+    <value>設定</value>
     <comment>Navigation view item name for Settings</comment>
   </data>
   <data name="App_AddDependency.Content" xml:space="preserve">
-    <value>Add</value>
+    <value>追加</value>
   </data>
   <data name="App_AppName.Text" xml:space="preserve">
-    <value>Application name</value>
+    <value>アプリ名</value>
   </data>
   <data name="App_AppPackage.Text" xml:space="preserve">
     <value>App package</value>
   </data>
   <data name="App_ClearDependency.Content" xml:space="preserve">
-    <value>Clear</value>
+    <value>クリア</value>
   </data>
   <data name="App_Dependencies.Text" xml:space="preserve">
     <value>Dependency</value>
   </data>
   <data name="App_Developer.Text" xml:space="preserve">
-    <value>Developer</value>
+    <value>開発者</value>
   </data>
   <data name="App_SelectAppPackage.Content" xml:space="preserve">
-    <value>Select</value>
+    <value>選択</value>
   </data>
   <data name="App_Upload.Content" xml:space="preserve">
-    <value>Upload</value>
-  </data>
-  <data name="App_Version.Text" xml:space="preserve">
-    <value>Version</value>
+    <value>アップロード</value>
   </data>
   <data name="Setting_DeleteCache.Content" xml:space="preserve">
-    <value>Delete local cache</value>
+    <value>アプリパッケージのローカルキャッシュを削除</value>
   </data>
 </root>
