@@ -172,4 +172,49 @@
   <data name="Setting_DeleteCache.Content" xml:space="preserve">
     <value>アプリパッケージのローカルキャッシュを削除</value>
   </data>
+  <data name="App_Version.Text" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="Install_Connect.Content" xml:space="preserve">
+    <value>接続確認</value>
+  </data>
+  <data name="Install_Device.Text" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="Install_Edit.Content" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="Install_Install.Content" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="Install_IPAddress.PlaceholderText" xml:space="preserve">
+    <value>HoloLens の IP アドレス（例: 192.168.0.2）</value>
+  </data>
+  <data name="Install_Password.Text" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="Install_PasswordPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>デバイスポータルのパスワード</value>
+  </data>
+  <data name="Install_USBConnection.Content" xml:space="preserve">
+    <value>USB 接続</value>
+  </data>
+  <data name="Install_Username.Text" xml:space="preserve">
+    <value>ユーザー名</value>
+  </data>
+  <data name="Install_UsernamePlaceholder.PlaceholderText" xml:space="preserve">
+    <value>デバイスポータルのユーザー名</value>
+  </data>
+  <data name="Upload_FailureMessage" xml:space="preserve">
+    <value>アップロードに失敗しました。</value>
+  </data>
+  <data name="Upload_MissingMessage" xml:space="preserve">
+    <value>すべての項目を入力してください。</value>
+  </data>
+  <data name="Upload_SuccessMessage" xml:space="preserve">
+    <value>{0} のアップロードが成功しました。</value>
+  </data>
+  <data name="Upload_UploadingMessage" xml:space="preserve">
+    <value>{0} がアップロードされるまでお待ちください。</value>
+  </data>
 </root>
