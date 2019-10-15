@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
+using Windows.System;
 
 namespace HoloLensAppManager.Models
 {
@@ -49,7 +50,9 @@ namespace HoloLensAppManager.Models
                 var dependencyIds = new List<String>();
                 foreach (var dep in application.Dependencies)
                 {
-                    var dependencyId = $"{appPackageName}_{dep.Name}";
+                    var parentFolder = await dep.GetParentAsync();
+                    var architecture = parentFolder.Name; // x86, x64, arm
+                    var dependencyId = $"{appPackageName}_{architecture}_{dep.Name}";
                     dependencyIds.Add(dependencyId);
                     CloudBlockBlob depBlockBlob = container.GetBlockBlobReference(dependencyId);
                     await depBlockBlob.UploadFromFileAsync(dep);
@@ -313,7 +316,7 @@ namespace HoloLensAppManager.Models
             }
         }
 
-        public async Task<Application> Download(string appName, string version, bool useCache = true)
+        public async Task<Application> Download(string appName, string version, ProcessorArchitecture architecture, bool useCache = true)
         {
             try
             {
@@ -354,6 +357,8 @@ namespace HoloLensAppManager.Models
                 application.Dependencies = new List<StorageFile>();
                 foreach (var depId in application.DependencyIds)
                 {
+                    // TODO 対応するバージョンのみをダウンロード
+                    // archtecture をチェック
                     var dep = await DownloadBrob(localFolder, depId, useCache);
                     if (dep == null)
                     {
@@ -401,9 +406,9 @@ namespace HoloLensAppManager.Models
                     storageFile = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
                     await blockBlob_download.DownloadToFileAsync(storageFile);
                 }
-
                 return storageFile;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
                 return null;

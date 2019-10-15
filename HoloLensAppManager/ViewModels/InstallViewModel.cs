@@ -13,6 +13,7 @@ using Microsoft.Tools.WindowsDevicePortal;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 
 namespace HoloLensAppManager.ViewModels
@@ -173,6 +174,17 @@ namespace HoloLensAppManager.ViewModels
                 SearchWithQuery(query);
             }
         }
+
+        private ProcessorArchitecture architecture;
+        public ProcessorArchitecture Architecture
+        {
+            get { return architecture; }
+            set
+            {
+                this.Set(ref this.architecture, value);
+            }
+        }
+
         #endregion
 
 
@@ -364,7 +376,9 @@ namespace HoloLensAppManager.ViewModels
             ErrorMessage = "";
             SuccessMessage = $"{appForInstall.AppInfo.Name} をダウンロードしています";
 
-            var app = await uploader.Download(appForInstall.AppInfo.Name, appForInstall.SelectedVersion.ToString());
+            var appName = appForInstall.AppInfo.Name;
+            var version = appForInstall.SelectedVersion.ToString();
+            var app = await uploader.Download(appName, version, Architecture);
             if (app == null)
             {
                 ErrorMessage = $"{appForInstall.AppInfo.Name} のダウンロードに失敗しました";
