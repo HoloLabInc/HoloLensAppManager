@@ -216,9 +216,6 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
-        //ローカルでデバッグする設定
-        bool isInLocalDebug = false;
-
         IUploader uploader;
         DevicePortal portal;
         BusyIndicator indicator;
@@ -239,6 +236,7 @@ namespace HoloLensAppManager.ViewModels
             Password = LoadSettingData(localSettings, PasswordSettingKey);
 
             #region ローカルでデバッグする設定
+            bool isInLocalDebug = false;
             var settings = ResourceLoader.GetForCurrentView("settings");
             string debugSetting = settings.GetString("LOCAL_DEBUG");
 
@@ -263,7 +261,8 @@ namespace HoloLensAppManager.ViewModels
 
         private bool StringToBool(string inputString)
         {
-            return bool.TryParse(inputString, out isInLocalDebug);
+            bool _isInLocalDebug;
+            return bool.TryParse(inputString, out _isInLocalDebug);
         }
 
         private string LoadSettingData(ApplicationDataContainer setting, string key)
