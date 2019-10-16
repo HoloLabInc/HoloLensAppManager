@@ -217,7 +217,7 @@ namespace HoloLensAppManager.ViewModels
         }
 
 
-        AzureStorageUploader uploader;
+        IUploader uploader;
         DevicePortal portal;
         BusyIndicator indicator;
 
