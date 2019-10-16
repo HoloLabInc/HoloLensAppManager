@@ -185,6 +185,34 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
+        private bool targetIsHoloLens1;
+        public bool TargetIsHoloLens1
+        {
+            get { return targetIsHoloLens1; }
+            set
+            {
+                this.Set(ref this.targetIsHoloLens1, value);
+                if (value)
+                {
+                    localSettings.Values[TargetDeviceSettingKey] = "HoloLens1";
+                }
+            }
+        }
+
+        private bool targetIsHoloLens2;
+        public bool TargetIsHoloLens2
+        {
+            get { return targetIsHoloLens2; }
+            set
+            {
+                this.Set(ref this.targetIsHoloLens2, value);
+                if (value)
+                {
+                    localSettings.Values[TargetDeviceSettingKey] = "HoloLens2";
+                }
+            }
+        }
+
         #endregion
 
 
@@ -218,6 +246,7 @@ namespace HoloLensAppManager.ViewModels
         const string UsbConnectionSettingKey = "DeviceUsbConnection";
         const string UsernameSettingKey = "DeviceUserName";
         const string PasswordSettingKey = "DevicePassword";
+        const string TargetDeviceSettingKey = "TargetDevice";
         #endregion
 
         #region アプリリストでの検索機能
@@ -300,6 +329,15 @@ namespace HoloLensAppManager.ViewModels
             }
             Username = LoadSettingData(localSettings, UsernameSettingKey);
             Password = LoadSettingData(localSettings, PasswordSettingKey);
+            var targetDevice = LoadSettingData(localSettings, TargetDeviceSettingKey);
+            if(targetDevice == "HoloLens1")
+            {
+                TargetIsHoloLens1 = true;
+            }
+            else
+            {
+                TargetIsHoloLens2 = true;
+            }
 
             #region ローカルでデバッグする設定
             var settings = ResourceLoader.GetForCurrentView("settings");

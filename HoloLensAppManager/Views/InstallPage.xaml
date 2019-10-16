@@ -10,14 +10,10 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:vm="using:HoloLensAppManager.ViewModels"
-    xmlns:helpers="using:HoloLensAppManager.Helpers"
     x:Class="HoloLensAppManager.Views.InstallPage"
     Style="{StaticResource PageStyle}"
     x:Name="page"
     mc:Ignorable="d">
-    <Page.Resources>
-        <helpers:BoolToEnumConverter x:Key="B2EConverter"/>
-    </Page.Resources>
 
     <!--
     <Page.Resources>
@@ -112,8 +108,8 @@
 
             <StackPanel Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
-                    <RadioButton Content="HoloLens2" Tag="HoloLens2" IsChecked="{x:Bind Converter={StaticResource B2EConverter}, Mode=TwoWay, Path=ViewModel.Architecture}"/>
-                    <RadioButton Content="HoloLens1" Tag="HoloLens1" />
+                    <RadioButton Content="HoloLens2" Tag="HoloLens2" IsChecked="{x:Bind Mode=TwoWay, Path=ViewModel.TargetIsHoloLens2}"/>
+                    <RadioButton Content="HoloLens1" Tag="HoloLens1" IsChecked="{x:Bind Mode=TwoWay, Path=ViewModel.TargetIsHoloLens1}"/>
                 </StackPanel>
                 <TextBox 
                      x:Uid="SearchTextBox"
