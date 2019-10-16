@@ -239,7 +239,7 @@ namespace HoloLensAppManager.ViewModels
             var settings = ResourceLoader.GetForCurrentView("settings");
             string debugSetting = settings.GetString("LOCAL_DEBUG");
 
-            bool isInLocalDebug = StringToBool(debugSetting);
+            var isInLocalDebug = StringToBool(debugSetting);
             if (isInLocalDebug)
             {
                 uploader = new DummyUploader();
