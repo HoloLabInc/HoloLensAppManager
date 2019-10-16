@@ -237,7 +237,7 @@ namespace HoloLensAppManager.ViewModels
 
             #region ローカルでデバッグする設定
             var settings = ResourceLoader.GetForCurrentView("settings");
-            string debugSetting = settings.GetString("LOCAL_DEBUG");
+            var debugSetting = settings.GetString("LOCAL_DEBUG");
 
             var isInLocalDebug = StringToBool(debugSetting);
             if (isInLocalDebug)
