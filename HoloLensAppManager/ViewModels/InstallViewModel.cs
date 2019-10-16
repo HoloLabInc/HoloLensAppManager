@@ -242,7 +242,7 @@ namespace HoloLensAppManager.ViewModels
             var settings = ResourceLoader.GetForCurrentView("settings");
             string debugSetting = settings.GetString("LOCAL_DEBUG");
 
-            isInLocalDebug = stringToBool(debugSetting);
+            isInLocalDebug = StringToBool(debugSetting);
             if (isInLocalDebug)
             {
                 uploader = new DummyUploader();
@@ -261,13 +261,9 @@ namespace HoloLensAppManager.ViewModels
             };
         }
 
-        private bool stringToBool(string LOCAL_DEBUG)
+        private bool StringToBool(string inputString)
         {
-            if (LOCAL_DEBUG == "true" || LOCAL_DEBUG == "TRUE")
-            {
-                return isInLocalDebug = true;
-            }
-            return isInLocalDebug = false;
+            return bool.TryParse(inputString, out isInLocalDebug);
         }
 
         private string LoadSettingData(ApplicationDataContainer setting, string key)
