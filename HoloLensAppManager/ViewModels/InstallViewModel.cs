@@ -236,11 +236,10 @@ namespace HoloLensAppManager.ViewModels
             Password = LoadSettingData(localSettings, PasswordSettingKey);
 
             #region ローカルでデバッグする設定
-            bool isInLocalDebug = false;
             var settings = ResourceLoader.GetForCurrentView("settings");
             string debugSetting = settings.GetString("LOCAL_DEBUG");
 
-            isInLocalDebug = StringToBool(debugSetting);
+            bool isInLocalDebug = StringToBool(debugSetting);
             if (isInLocalDebug)
             {
                 uploader = new DummyUploader();
