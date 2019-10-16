@@ -10,6 +10,7 @@ using HoloLensAppManager.Models;
 using HoloLensAppManager.Services;
 using HoloLensAppManager.Views;
 using Microsoft.Tools.WindowsDevicePortal;
+using Windows.ApplicationModel.Resources;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -80,7 +81,6 @@ namespace HoloLensAppManager.ViewModels
                 this.Set(ref this.versionIndex, value);
             }
         }
-
 
         #region HoloLens 接続用プロパティ
         private string address;
@@ -216,6 +216,8 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
+        //ローカルでデバッグする設定
+        bool isInLocalDebug = false;
 
         IUploader uploader;
         DevicePortal portal;
@@ -236,7 +238,18 @@ namespace HoloLensAppManager.ViewModels
             Username = LoadSettingData(localSettings, UsernameSettingKey);
             Password = LoadSettingData(localSettings, PasswordSettingKey);
 
-            uploader = new AzureStorageUploader();
+            #region ローカルでデバッグする設定
+            var settings = ResourceLoader.GetForCurrentView("settings");
+            isInLocalDebug = stringToBool(settings.GetString("LOCAL_DEBUG"));
+            if (isInLocalDebug)
+            {
+                uploader = new DummyUploader();
+            }
+            else
+            {
+                uploader = new AzureStorageUploader();
+            }
+            #endregion
 
             UpdateApplicationList();
 
@@ -244,6 +257,15 @@ namespace HoloLensAppManager.ViewModels
             {
                 Message = "ただいま処理中です。しばらくお待ちください..."
             };
+        }
+
+        private bool stringToBool(string LOCAL_DEBUG)
+        {
+            if (LOCAL_DEBUG == "true" || LOCAL_DEBUG == "TRUE")
+            {
+                return isInLocalDebug = true;
+            }
+            return isInLocalDebug = false;
         }
 
         private string LoadSettingData(ApplicationDataContainer setting, string key)
