@@ -260,8 +260,8 @@ namespace HoloLensAppManager.ViewModels
 
         private bool StringToBool(string inputString)
         {
-            bool _isInLocalDebug;
-            return bool.TryParse(inputString, out _isInLocalDebug);
+            bool.TryParse(inputString, out var result);
+            return result;
         }
 
         private string LoadSettingData(ApplicationDataContainer setting, string key)
