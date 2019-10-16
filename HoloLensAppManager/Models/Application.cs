@@ -7,11 +7,22 @@ using Windows.Storage;
 
 namespace HoloLensAppManager.Models
 {
+    [Flags]
+    public enum SupportedArchitectureType
+    {
+        None = 0,
+        X86 = 1,
+        X64 = 1 << 1,
+        Arm = 1 << 2,
+        Arm64 = 1 << 3
+    }
+
     public class AppInfo
     {
         public string Name;
         public string DeveloperName;
         public string Description;
+        public SupportedArchitectureType SupportedArchitecture;
         public HashSet<AppVersion> Versions = new HashSet<AppVersion>();
     }
 
@@ -21,6 +32,7 @@ namespace HoloLensAppManager.Models
         public string DeveloperName;
         public string Name;
         public AppVersion Version;
+        public SupportedArchitectureType SupportedArchitecture;
 
         // Azure 上のファイルを示すときは、AppPackage を null, AppPackageId にファイル情報を入れる
         public string AppPackageId;

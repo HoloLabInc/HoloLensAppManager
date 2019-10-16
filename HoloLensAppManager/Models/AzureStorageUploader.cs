@@ -466,6 +466,18 @@ namespace HoloLensAppManager.Models
         public string Description { set; get; }
         public string Developer { set; get; }
 
+        #region SupportedArchecture
+        // for application
+        public SupportedArchitectureType SupportedArchitecture
+        {
+            get => (SupportedArchitectureType)supportedArchtecture;
+            set => supportedArchtecture = (int)value;
+        }
+
+        // for table store
+        public int supportedArchtecture { get; set; }
+        #endregion
+
         private HashSet<AppVersion> appVersions;
         private string appVersionsString;
 
@@ -564,7 +576,8 @@ namespace HoloLensAppManager.Models
                 Name = PartitionKey,
                 DeveloperName = Developer,
                 Description = Description,
-                Versions = AppVersions
+                Versions = AppVersions,
+                SupportedArchitecture = SupportedArchitecture
             };
         }
     }

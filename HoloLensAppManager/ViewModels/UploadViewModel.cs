@@ -324,11 +324,14 @@ namespace HoloLensAppManager.ViewModels
                 dependencies.Add(dep);
             }
 
+            var supportedArchitecture = SupportedArchitectureHelper.GetSupportedArchitectureFromAppPackage(appPackage);
+            
             var uploadPackage = new Application()
             {
                 DeveloperName = developerName,
                 Name = name,
                 Version = version,
+                SupportedArchitecture = supportedArchitecture,
                 AppPackage = appPackage,
                 Dependencies = dependencies,
             };
