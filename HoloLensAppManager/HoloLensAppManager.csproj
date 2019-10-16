@@ -124,6 +124,7 @@
     <Compile Include="Models\DragDropCompletedData.cs" />
     <Compile Include="Models\DragDropData.cs" />
     <Compile Include="Models\DragDropStartingData.cs" />
+    <Compile Include="Models\DummyUploader.cs" />
     <Compile Include="Models\IUploader.cs" />
     <Compile Include="Models\SampleOrder.cs" />
     <Compile Include="Services\ActivationService.cs" />
