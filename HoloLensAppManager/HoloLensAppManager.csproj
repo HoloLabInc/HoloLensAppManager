@@ -116,9 +116,9 @@
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Helpers\BoolToEnumConverter.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\SupportedArchitectureHelper.cs" />
     <Compile Include="Models\Application.cs" />
     <Compile Include="Models\AzureStorageUploader.cs" />
     <Compile Include="Models\Device.cs" />

@@ -70,7 +70,8 @@ namespace HoloLensAppManager.Models
                         Name = application.Name,
                         AppVersion = application.Version,
                         AppPackageId = appPackageId,
-                        DependencyIds = dependencyIds
+                        DependencyIds = dependencyIds,
+                        SupportedArchitecture = application.SupportedArchitecture
                     };
                     TableOperation insertOperation = TableOperation.InsertOrReplace(appPackageEntity);
                     // Execute the insert operation.
@@ -82,10 +83,12 @@ namespace HoloLensAppManager.Models
                     CloudTable appInfoTable = tableClient.GetTableReference(AppInfoTableName);
                     await appInfoTable.CreateIfNotExistsAsync();
 
+                    // SupportedArchitecture は最新のものに設定
                     var appInfoEntry = new AppInfoEntity(application.Name)
                     {
                         Description = "",
-                        Developer = application.DeveloperName
+                        Developer = application.DeveloperName,
+                        SupportedArchitecture = application.SupportedArchitecture
                     };
 
                     // すでにデータが保存されているかどうかチェック
@@ -597,6 +600,18 @@ namespace HoloLensAppManager.Models
 
         public string Name { get; set; }
 
+        #region SupportedArchecture
+        // for application
+        public SupportedArchitectureType SupportedArchitecture
+        {
+            get => (SupportedArchitectureType)supportedArchtecture;
+            set => supportedArchtecture = (int)value;
+        }
+
+        // for table store
+        public int supportedArchtecture { get; set; }
+        #endregion
+
         private AppVersion appVersion;
         private string appVersionString;
 
@@ -730,7 +745,8 @@ namespace HoloLensAppManager.Models
                 DeveloperName = Developer,
                 Version = AppVersion,
                 AppPackageId = AppPackageId,
-                DependencyIds = DependencyIds
+                DependencyIds = DependencyIds,
+                SupportedArchitecture = SupportedArchitecture
             };
         }
 
