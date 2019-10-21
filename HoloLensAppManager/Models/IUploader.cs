@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HoloLensAppManager.ViewModels;
+using Windows.System;
 
 namespace HoloLensAppManager.Models
 {
@@ -15,6 +16,6 @@ namespace HoloLensAppManager.Models
 
         Task<List<AppInfo>> GetAppInfoListAsync();
 
-        Task<Application> Download(string appName, string version, bool useCache = true);
+        Task<Application> Download(string appName, string version, ProcessorArchitecture architecture, bool useCache = true);
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace HoloLensAppManager.Models
 {
     class DummyUploader : IUploader
     {
-        public Task<Application> Download(string appName, string version, bool useCache = true)
+        public Task<Application> Download(string appName, string version, ProcessorArchitecture architecture, bool useCache = true)
         {
             throw new NotImplementedException();
         }
