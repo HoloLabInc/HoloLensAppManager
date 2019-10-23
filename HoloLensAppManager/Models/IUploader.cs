@@ -13,8 +13,10 @@ namespace HoloLensAppManager.Models
         //bool UploadFile(string name, StoredFile file);
         Task<bool> Upload(Application application);
 
-        Task<List<AppInfo>> GetAppInfoListAsync();
+        Task<List<AppInfo>> GetAppInfoListAsync(bool isSearching, string keyword);
 
         Task<Application> Download(string appName, string version, bool useCache = true);
+
+        Task<List<AppInfo>> SearchInAppList(string keyword);
     }
 }

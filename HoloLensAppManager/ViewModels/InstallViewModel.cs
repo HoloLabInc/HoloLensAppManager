@@ -196,6 +196,16 @@ namespace HoloLensAppManager.ViewModels
         const string PasswordSettingKey = "DevicePassword";
         #endregion
 
+        #region アプリリストでの検索機能
+
+        public async Task SearchInAppList(string keyword)
+        {
+            await uploader.SearchInAppList(keyword);
+
+            UpdateApplicationList(true, keyword);
+        }
+
+        #endregion
 
         public enum ConnectionState
         {
@@ -275,9 +285,9 @@ namespace HoloLensAppManager.ViewModels
         }
 
 
-        public async Task UpdateApplicationList()
+        public async Task UpdateApplicationList(bool isSearching = false,string keyword = "")
         {
-            var list = await uploader.GetAppInfoListAsync();
+            var list = await uploader.GetAppInfoListAsync(isSearching, keyword);
             appInfoList.Clear();
             foreach(var app in list)
             {

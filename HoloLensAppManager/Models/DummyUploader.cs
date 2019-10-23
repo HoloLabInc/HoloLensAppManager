@@ -4,17 +4,27 @@ using System.Threading.Tasks;
 
 namespace HoloLensAppManager.Models
 {
-    class DummyUploader : IUploader
+    public class DummyUploader : IUploader
     {
+        public List<AppInfo> appInfoList = new List<AppInfo>();
+
         public Task<Application> Download(string appName, string version, bool useCache = true)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<AppInfo>> GetAppInfoListAsync()
+        public async Task<List<AppInfo>> GetAppInfoListAsync(bool isSearching = false, string keyword = "")
         {
-            var appInfoList = new List<AppInfo>();
+            if (isSearching)
+            {
+                return await SearchInAppList(keyword);
+            }
 
+            return await MakeInitialAppList();
+        }
+
+        private async Task<List<AppInfo>> MakeInitialAppList()
+        {
             var firstApp = new AppInfo
             {
                 Name = "DummyApplication1",
@@ -62,6 +72,28 @@ namespace HoloLensAppManager.Models
         public Task<bool> Upload(Application application)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<AppInfo>> SearchInAppList(string keyword)
+        {
+            List<AppInfo> newAppInfoList = new List<AppInfo>();
+            foreach (var app in appInfoList)
+            {
+                if (app.Description.Contains(keyword))
+                {
+                    newAppInfoList.Add(app);
+                }
+                else if (app.Name.Contains(keyword))
+                {
+                    newAppInfoList.Add(app);
+                }
+                else if (app.DeveloperName.Contains(keyword))
+                {
+                    newAppInfoList.Add(app);
+                }
+            }
+
+            return newAppInfoList;
         }
     }
 }
