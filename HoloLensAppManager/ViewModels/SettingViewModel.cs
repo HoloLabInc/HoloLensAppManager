@@ -52,8 +52,7 @@ namespace HoloLensAppManager.ViewModels
 
         private async Task OpenFolder()
         {
-            var options = new FolderLauncherOptions();
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder, options);
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
         private async Task ClearCache()
