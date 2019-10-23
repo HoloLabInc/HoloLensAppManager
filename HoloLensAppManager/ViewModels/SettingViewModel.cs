@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
+using Windows.System;
 
 namespace HoloLensAppManager.ViewModels
 {
@@ -35,11 +37,23 @@ namespace HoloLensAppManager.ViewModels
         public ICommand ClearCacheCommand => clearCacheCommand ?? (clearCacheCommand =
             new RelayCommand(async () => { await ClearCache(); }));
 
+
+        private ICommand openDownloadFolder;
+        public ICommand OpenDownloadFolder => openDownloadFolder ?? (openDownloadFolder =
+                                                 new RelayCommand(async () => { await OpenFolder(); }));
+
+
         AzureStorageUploader uploader;
 
         public SettingViewModel()
         {
             uploader = new AzureStorageUploader();
+        }
+
+        private async Task OpenFolder()
+        {
+            var options = new FolderLauncherOptions();
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder, options);
         }
 
         private async Task ClearCache()
