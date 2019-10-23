@@ -170,7 +170,7 @@
     <value>アップロード</value>
   </data>
   <data name="Setting_DeleteCache.Content" xml:space="preserve">
-    <value>アプリパッケージのローカルキャッシュを削除</value>
+    <value>ダウンロード済みアプリパッケージを削除</value>
   </data>
   <data name="App_Version.Text" xml:space="preserve">
     <value>バージョン</value>
@@ -216,5 +216,8 @@
   </data>
   <data name="Upload_UploadingMessage" xml:space="preserve">
     <value>{0} がアップロードされるまでお待ちください。</value>
+  </data>
+  <data name="Setting_openFolder.Content" xml:space="preserve">
+    <value>ダウンロード済みアプリパッケージを表示</value>
   </data>
 </root>
