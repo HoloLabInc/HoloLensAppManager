@@ -445,6 +445,7 @@ namespace HoloLensAppManager.Models
             }
             */
         }
+
     }
 
     public class AppInfoEntity : TableEntity

@@ -4,14 +4,17 @@ using System.Threading.Tasks;
 
 namespace HoloLensAppManager.Models
 {
-    public class DummyUploader : IUploader
+    class DummyUploader : IUploader
     {
-        private IUploader uploader;
-
-        private List<AppInfo> appInfoList = new List<AppInfo>();
+        public Task<Application> Download(string appName, string version, bool useCache = true)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<List<AppInfo>> GetAppInfoListAsync()
         {
+            var appInfoList = new List<AppInfo>();
+
             var firstApp = new AppInfo
             {
                 Name = "DummyApplication1",
@@ -61,9 +64,5 @@ namespace HoloLensAppManager.Models
             throw new NotImplementedException();
         }
 
-        public Task<Application> Download(string appName, string version, bool useCache = true)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

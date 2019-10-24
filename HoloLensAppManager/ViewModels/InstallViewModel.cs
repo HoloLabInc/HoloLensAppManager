@@ -77,9 +77,9 @@ namespace HoloLensAppManager.ViewModels
         {
             get 
             {
-                {
-                    return searchedAppInfoList;
-                }
+
+                return searchedAppInfoList;
+                
             }
         }
     
@@ -332,11 +332,11 @@ namespace HoloLensAppManager.ViewModels
         public async Task UpdateApplicationList()
         {
             var list = await uploader.GetAppInfoListAsync();
+            appInfoList.Clear();
 
-            AppInfoList.Clear();
             foreach(var app in list)
             {
-                AppInfoList.Add(new AppInfoForInstall()
+                appInfoList.Add(new AppInfoForInstall()
                 {
                     AppInfo = app
                 }

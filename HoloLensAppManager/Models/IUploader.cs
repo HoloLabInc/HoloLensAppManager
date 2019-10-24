@@ -16,6 +16,5 @@ namespace HoloLensAppManager.Models
         Task<List<AppInfo>> GetAppInfoListAsync();
 
         Task<Application> Download(string appName, string version, bool useCache = true);
-
     }
 }
