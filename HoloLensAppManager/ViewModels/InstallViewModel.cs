@@ -77,13 +77,10 @@ namespace HoloLensAppManager.ViewModels
         {
             get 
             {
-
-                return searchedAppInfoList;
-                
+                return searchedAppInfoList;              
             }
         }
     
-
         private int versionIndex;
         public int VersionIndex
         {
@@ -211,13 +208,11 @@ namespace HoloLensAppManager.ViewModels
         #region アプリリストでの検索機能
 
         public async Task SearhWithKeyword(string keywordString)
-        {
-            searchedAppInfoList.Clear();
-
+        {         
             var keywords = keywordString.Split(' ');
+            var list = AppInfoList;
 
-            var list = AppInfoList;   
-
+            searchedAppInfoList.Clear();
             foreach (var app in list)
             {
                 bool description = IsContainStringArray(app.AppInfo.Description.ToLower(), keywords);
@@ -279,6 +274,7 @@ namespace HoloLensAppManager.ViewModels
         {
             // 接続情報の設定
             Address = LoadSettingData(localSettings, AddressSettingKey);
+
             try
             {
                 UsbConnection = Convert.ToBoolean(LoadSettingData(localSettings, UsbConnectionSettingKey));
