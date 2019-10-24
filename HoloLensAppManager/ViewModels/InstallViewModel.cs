@@ -307,8 +307,7 @@ namespace HoloLensAppManager.ViewModels
             return "";
         }
 
-
-        public async Task UpdateApplicationList(string keyword = "")
+        public async Task UpdateApplicationList(string keyword = null)
         {
             var list = await uploader.GetAppInfoListAsync(keyword);
 

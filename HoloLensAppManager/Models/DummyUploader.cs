@@ -7,7 +7,6 @@ namespace HoloLensAppManager.Models
     public class DummyUploader : IUploader
     {
         private IUploader uploader;
-
         private List<AppInfo> appInfoList = new List<AppInfo>();
 
         private List<AppInfo> searchAppInfoList_ = new List<AppInfo>();
@@ -24,7 +23,7 @@ namespace HoloLensAppManager.Models
 
         public async Task<List<AppInfo>> GetAppInfoListAsync(string searchKeyword = null)
         {
-            if (searchKeyword != null && searchKeyword != "")
+            if (searchKeyword != null)
             {
                 return await MakeSearchAppList();
             }
