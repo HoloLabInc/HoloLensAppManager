@@ -198,11 +198,34 @@ namespace HoloLensAppManager.ViewModels
 
         #region アプリリストでの検索機能
 
-        public async Task SearchInAppList(string keyword)
+        public async Task SearhWithKeyword(string keyword)
         {
-            await uploader.SearchInAppList(keyword);
+            await SearchInAppList(keyword);
 
-            UpdateApplicationList(true, keyword);
+            UpdateApplicationList(keyword);
+        }
+
+        public async Task<List<AppInfo>> SearchInAppList(string keyword)
+        {
+            uploader.searchAppInfoList().Clear();
+
+            foreach (var app in uploader.appInfoList())
+            {
+                if (app.Description.Contains(keyword))
+                {
+                    uploader.searchAppInfoList().Add(app);
+                }
+                else if (app.Name.Contains(keyword))
+                {
+                    uploader.searchAppInfoList().Add(app);
+                }
+                else if (app.DeveloperName.Contains(keyword))
+                {
+                    uploader.searchAppInfoList().Add(app);
+                }
+            }
+
+            return uploader.searchAppInfoList();
         }
 
         #endregion
@@ -285,9 +308,10 @@ namespace HoloLensAppManager.ViewModels
         }
 
 
-        public async Task UpdateApplicationList(bool isSearching = false,string keyword = "")
+        public async Task UpdateApplicationList(string keyword = "")
         {
-            var list = await uploader.GetAppInfoListAsync(isSearching, keyword);
+            var list = await uploader.GetAppInfoListAsync(keyword);
+
             appInfoList.Clear();
             foreach(var app in list)
             {

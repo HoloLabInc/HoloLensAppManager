@@ -446,17 +446,17 @@ namespace HoloLensAppManager.Models
             */
         }
 
-        public Task<List<AppInfo>> GetAppInfoListAsync(bool isSearching)
+        public List<AppInfo> appInfoList()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<AppInfo>> SearchInAppList(string keyword)
+        public Task<List<AppInfo>> GetAppInfoListAsync(string searchKeywords = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<AppInfo>> GetAppInfoListAsync(bool isSearching, string keyword)
+        public List<AppInfo> searchAppInfoList()
         {
             throw new NotImplementedException();
         }

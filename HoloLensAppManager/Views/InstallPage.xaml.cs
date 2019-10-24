@@ -32,7 +32,7 @@ namespace HoloLensAppManager.Views
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             string keyword = ((TextBox) sender).Text;
-            ViewModel.SearchInAppList(keyword);
+            ViewModel.SearhWithKeyword(keyword);
         }
     }
 }

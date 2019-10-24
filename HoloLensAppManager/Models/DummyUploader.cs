@@ -6,21 +6,35 @@ namespace HoloLensAppManager.Models
 {
     public class DummyUploader : IUploader
     {
-        public List<AppInfo> appInfoList = new List<AppInfo>();
+        private IUploader uploader;
 
-        public Task<Application> Download(string appName, string version, bool useCache = true)
+        private List<AppInfo> appInfoList = new List<AppInfo>();
+
+        private List<AppInfo> searchAppInfoList_ = new List<AppInfo>();
+
+        List<AppInfo> IUploader.appInfoList()
         {
-            throw new NotImplementedException();
+            return appInfoList;
         }
 
-        public async Task<List<AppInfo>> GetAppInfoListAsync(bool isSearching = false, string keyword = "")
+        List<AppInfo> IUploader.searchAppInfoList()
         {
-            if (isSearching)
+            return searchAppInfoList_;
+        }
+
+        public async Task<List<AppInfo>> GetAppInfoListAsync(string searchKeyword = null)
+        {
+            if (searchKeyword != null && searchKeyword != "")
             {
-                return await SearchInAppList(keyword);
+                return await MakeSearchAppList();
             }
 
             return await MakeInitialAppList();
+        }
+
+        private async Task<List<AppInfo>> MakeSearchAppList()
+        {
+            return searchAppInfoList_;
         }
 
         private async Task<List<AppInfo>> MakeInitialAppList()
@@ -74,26 +88,9 @@ namespace HoloLensAppManager.Models
             throw new NotImplementedException();
         }
 
-        public async Task<List<AppInfo>> SearchInAppList(string keyword)
+        public Task<Application> Download(string appName, string version, bool useCache = true)
         {
-            List<AppInfo> newAppInfoList = new List<AppInfo>();
-            foreach (var app in appInfoList)
-            {
-                if (app.Description.Contains(keyword))
-                {
-                    newAppInfoList.Add(app);
-                }
-                else if (app.Name.Contains(keyword))
-                {
-                    newAppInfoList.Add(app);
-                }
-                else if (app.DeveloperName.Contains(keyword))
-                {
-                    newAppInfoList.Add(app);
-                }
-            }
-
-            return newAppInfoList;
+            throw new NotImplementedException();
         }
     }
 }
