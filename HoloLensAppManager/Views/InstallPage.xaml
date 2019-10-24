@@ -105,7 +105,7 @@
             </Grid>
 
             <Grid
-                Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" Margin="0,0,0,650" HorizontalAlignment="Stretch" cu:Grid.Row="1">
+                Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" Margin="0,0,0,650" HorizontalAlignment="Stretch" Grid.Row="1">
                 <TextBox x:Uid="SearchTextBox" Margin="10,10,634,-44" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="Search..." TextChanged ="TextBox_OnTextChanged"/>
 
             </Grid>
