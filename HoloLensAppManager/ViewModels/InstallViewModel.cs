@@ -216,27 +216,38 @@ namespace HoloLensAppManager.ViewModels
 
             var keywords = keywordString.Split(' ');
 
-        public async Task<List<AppInfo>> SearchInAppList(string keyword)
-        {
-            uploader.searchAppInfoList().Clear();
+            var list = AppInfoList;   
 
-            foreach (var app in uploader.appInfoList())
+            foreach (var app in list)
             {
-                if (app.Description.Contains(keyword))
+                bool description = IsContainStringArray(app.AppInfo.Description.ToLower(), keywords);
+                bool name = IsContainStringArray(app.AppInfo.Name.ToLower(), keywords);
+                bool developerName = IsContainStringArray(app.AppInfo.DeveloperName.ToLower(), keywords);
+
+                if (description || name || developerName)
                 {
-                    uploader.searchAppInfoList().Add(app);
+                    searchedAppInfoList.Add(app);
+                }           
+            }
+        }
+
+        private bool IsContainStringArray(string aString, string[] stringArray)
+        {
+            foreach (var string_ in stringArray)
+            {
+                if (int.TryParse(string_, out int result))
+                {
+                    if (!aString.Contains(result.ToString()))
+                    {
+                        return false;
+                    }
                 }
-                else if (app.Name.Contains(keyword))
+                else if (!aString.Contains(string_.ToString().ToLower()))
                 {
-                    uploader.searchAppInfoList().Add(app);
-                }
-                else if (app.DeveloperName.Contains(keyword))
-                {
-                    uploader.searchAppInfoList().Add(app);
+                    return false;
                 }
             }
-
-            return uploader.searchAppInfoList();
+            return true;
         }
 
         #endregion
