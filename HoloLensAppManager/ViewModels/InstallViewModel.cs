@@ -206,7 +206,6 @@ namespace HoloLensAppManager.ViewModels
         #endregion
 
         #region アプリリストでの検索機能
-
         public async Task SearhWithKeyword(string keywordString)
         {         
             var keywords = keywordString.Split(' ');
@@ -244,7 +243,6 @@ namespace HoloLensAppManager.ViewModels
             }
             return true;
         }
-
         #endregion
 
         public enum ConnectionState
@@ -274,7 +272,6 @@ namespace HoloLensAppManager.ViewModels
         {
             // 接続情報の設定
             Address = LoadSettingData(localSettings, AddressSettingKey);
-
             try
             {
                 UsbConnection = Convert.ToBoolean(LoadSettingData(localSettings, UsbConnectionSettingKey));
@@ -329,7 +326,6 @@ namespace HoloLensAppManager.ViewModels
         {
             var list = await uploader.GetAppInfoListAsync();
             appInfoList.Clear();
-
             foreach(var app in list)
             {
                 appInfoList.Add(new AppInfoForInstall()
