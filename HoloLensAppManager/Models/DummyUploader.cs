@@ -63,6 +63,5 @@ namespace HoloLensAppManager.Models
         {
             throw new NotImplementedException();
         }
-
     }
 }
