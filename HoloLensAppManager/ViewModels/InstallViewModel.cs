@@ -72,6 +72,18 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
+        private ObservableCollection<AppInfoForInstall> searchedAppInfoList = new ObservableCollection<AppInfoForInstall>();
+        public ObservableCollection<AppInfoForInstall> SearchedAppInfoList
+        {
+            get 
+            {
+                {
+                    return searchedAppInfoList;
+                }
+            }
+        }
+    
+
         private int versionIndex;
         public int VersionIndex
         {
@@ -198,12 +210,11 @@ namespace HoloLensAppManager.ViewModels
 
         #region アプリリストでの検索機能
 
-        public async Task SearhWithKeyword(string keyword)
+        public async Task SearhWithKeyword(string keywordString)
         {
-            await SearchInAppList(keyword);
+            searchedAppInfoList.Clear();
 
-            UpdateApplicationList(keyword);
-        }
+            var keywords = keywordString.Split(' ');
 
         public async Task<List<AppInfo>> SearchInAppList(string keyword)
         {
@@ -307,14 +318,14 @@ namespace HoloLensAppManager.ViewModels
             return "";
         }
 
-        public async Task UpdateApplicationList(string keyword = null)
+        public async Task UpdateApplicationList()
         {
-            var list = await uploader.GetAppInfoListAsync(keyword);
+            var list = await uploader.GetAppInfoListAsync();
 
-            appInfoList.Clear();
+            AppInfoList.Clear();
             foreach(var app in list)
             {
-                appInfoList.Add(new AppInfoForInstall()
+                AppInfoList.Add(new AppInfoForInstall()
                 {
                     AppInfo = app
                 }
@@ -325,6 +336,9 @@ namespace HoloLensAppManager.ViewModels
             {
                 app.SelectLatestVersion();
             }
+
+            //Initialize searchAppInfoList copied from AppInfoList
+            searchedAppInfoList = new ObservableCollection<AppInfoForInstall>(AppInfoList);
         }
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)

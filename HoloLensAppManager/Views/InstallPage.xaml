@@ -110,7 +110,7 @@
 
             </Grid>
 
-            <ListView ItemsSource="{x:Bind Mode=OneWay, Path=ViewModel.AppInfoList}" x:Name="lv" Grid.Row="1" Margin="0,65,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <ListView ItemsSource="{x:Bind Mode=OneWay, Path=ViewModel.SearchedAppInfoList}" x:Name="lv" Grid.Row="1" Margin="0,65,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment"  Value="Stretch"/>

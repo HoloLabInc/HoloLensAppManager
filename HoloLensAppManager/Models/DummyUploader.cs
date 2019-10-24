@@ -7,36 +7,10 @@ namespace HoloLensAppManager.Models
     public class DummyUploader : IUploader
     {
         private IUploader uploader;
+
         private List<AppInfo> appInfoList = new List<AppInfo>();
 
-        private List<AppInfo> searchAppInfoList_ = new List<AppInfo>();
-
-        List<AppInfo> IUploader.appInfoList()
-        {
-            return appInfoList;
-        }
-
-        List<AppInfo> IUploader.searchAppInfoList()
-        {
-            return searchAppInfoList_;
-        }
-
-        public async Task<List<AppInfo>> GetAppInfoListAsync(string searchKeyword = null)
-        {
-            if (searchKeyword != null)
-            {
-                return await MakeSearchAppList();
-            }
-
-            return await MakeInitialAppList();
-        }
-
-        private async Task<List<AppInfo>> MakeSearchAppList()
-        {
-            return searchAppInfoList_;
-        }
-
-        private async Task<List<AppInfo>> MakeInitialAppList()
+        public async Task<List<AppInfo>> GetAppInfoListAsync()
         {
             var firstApp = new AppInfo
             {
