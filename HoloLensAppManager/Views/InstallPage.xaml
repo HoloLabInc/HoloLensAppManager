@@ -104,11 +104,14 @@
                 <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" BorderBrush="{StaticResource ThemeControlForegroundBaseHighBrush}" BorderThickness="1" Height="1" Margin="0 10" VerticalAlignment="Top"/>
             </Grid>
 
-            <Grid
-                Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" Margin="0,0,0,650" HorizontalAlignment="Stretch" Grid.Row="1">
-                <TextBox x:Uid="SearchTextBox" Margin="10,10,634,-44" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="Search..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
-
-            </Grid>
+            <TextBox Grid.Row="1"
+                     x:Uid="SearchTextBox"
+                     Margin="10,10,0,0"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"
+                     Height="40"
+                     Width="200"
+                     PlaceholderText="Search..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
             <ListView ItemsSource="{x:Bind Mode=OneWay, Path=ViewModel.SearchedAppInfoList}" x:Name="lv" Grid.Row="1" Margin="0,65,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <ListView.ItemContainerStyle>
