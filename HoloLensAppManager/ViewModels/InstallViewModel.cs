@@ -67,12 +67,12 @@ namespace HoloLensAppManager.ViewModels
         private ObservableCollection<AppInfoForInstall> searchedAppInfoList = new ObservableCollection<AppInfoForInstall>();
         public ObservableCollection<AppInfoForInstall> SearchedAppInfoList
         {
-            get 
+            get
             {
-                return searchedAppInfoList;              
+                return searchedAppInfoList;
             }
         }
-    
+
         private int versionIndex;
         public int VersionIndex
         {
