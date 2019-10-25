@@ -64,14 +64,6 @@ namespace HoloLensAppManager.ViewModels
     {
         private ObservableCollection<AppInfoForInstall> appInfoList = new ObservableCollection<AppInfoForInstall>();
 
-        public ObservableCollection<AppInfoForInstall> AppInfoList
-        {
-            get
-            {
-                return appInfoList;
-            }
-        }
-
         private ObservableCollection<AppInfoForInstall> searchedAppInfoList = new ObservableCollection<AppInfoForInstall>();
         public ObservableCollection<AppInfoForInstall> SearchedAppInfoList
         {
@@ -170,6 +162,17 @@ namespace HoloLensAppManager.ViewModels
                 this.Set(ref this.successMessage, value);
             }
         }
+
+        private string query = "";
+        public string Query
+        {
+            get { return query; }
+            set
+            {
+                this.Set(ref this.query, value);
+                SearchWithQuery(query);
+            }
+        }
         #endregion
 
 
@@ -206,48 +209,46 @@ namespace HoloLensAppManager.ViewModels
         #endregion
 
         #region アプリリストでの検索機能
-        public async Task SearchWithQuery(string searchQuery)
+        public void SearchWithQuery(string searchQuery)
         {
+            var newList = appInfoList.Where(app => MatchWithSearchQuery(app, searchQuery));
             searchedAppInfoList.Clear();
-            var newList = new ObservableCollection<AppInfoForInstall>(AppInfoList.Where(app => MatchWithSearchQuery(app, searchQuery)));
             foreach (var app in newList)
             {
                 searchedAppInfoList.Add(app);
             }
         }
-                
+
         private bool MatchWithSearchQuery(AppInfoForInstall app, string searchQuery)
         {
             var keywords = searchQuery.Split(' ');
-            bool description = CheckIfContainStringArray(app.AppInfo.Description.ToLower(), keywords);
-            bool name = CheckIfContainStringArray(app.AppInfo.Name.ToLower(), keywords);
-            bool developerName = CheckIfContainStringArray(app.AppInfo.DeveloperName.ToLower(), keywords);
 
-            if (description || name || developerName)
-            {
-                return true;
-            }
-            return false;
-        }
+            var description = app.AppInfo.Description;
+            var appName = app.AppInfo.Name;
+            var developerName = app.AppInfo.DeveloperName;
 
-        private bool CheckIfContainStringArray(string aString, string[] stringArray)
-        {
-            foreach (var element in stringArray)
+            var searchTargets = new string[] { description, appName, developerName };
+
+            foreach (var keyword in keywords)
             {
-                if (int.TryParse(element, out int result))
+                var keywordFound = false;
+                foreach (var target in searchTargets)
                 {
-                    if (!aString.Contains(result.ToString()))
+                    if (target.ToLower().Contains(keyword.ToLower()))
                     {
-                        return false;
+                        keywordFound = true;
+                        break;
                     }
                 }
-                else if (!aString.Contains(element.ToString().ToLower()))
+
+                if (!keywordFound)
                 {
                     return false;
                 }
             }
             return true;
         }
+
         #endregion
 
         public enum ConnectionState
@@ -345,8 +346,7 @@ namespace HoloLensAppManager.ViewModels
                 app.SelectLatestVersion();
             }
 
-            //Initialize searchAppInfoList copied from AppInfoList
-            searchedAppInfoList = new ObservableCollection<AppInfoForInstall>(AppInfoList);
+            SearchWithQuery(query);
         }
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)

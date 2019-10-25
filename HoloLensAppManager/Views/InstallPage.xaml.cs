@@ -21,18 +21,12 @@ namespace HoloLensAppManager.Views
 
         private void username_GotFocus(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            ((TextBox)sender).SelectAll();
+            ((TextBox) sender).SelectAll();
         }
 
         private void password_GotFocus(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            ((PasswordBox)sender).SelectAll();
-        }
-
-        private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            string keyword = ((TextBox) sender).Text;
-            ViewModel.SearhWithKeyword(keyword);
+            ((PasswordBox) sender).SelectAll();
         }
     }
 }

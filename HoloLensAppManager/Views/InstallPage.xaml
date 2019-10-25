@@ -106,7 +106,7 @@
 
             <Grid
                 Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" Margin="0,0,0,650" HorizontalAlignment="Stretch" Grid.Row="1">
-                <TextBox x:Uid="SearchTextBox" Margin="10,10,634,-44" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="Search..." TextChanged ="TextBox_OnTextChanged"/>
+                <TextBox x:Uid="SearchTextBox" Margin="10,10,634,-44" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaceholderText="Search..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
             </Grid>
 
