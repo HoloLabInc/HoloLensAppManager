@@ -109,7 +109,7 @@
                      Margin="10,10,0,0"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     Height="40"
+                     Height="30"
                      Width="200"
                      PlaceholderText="Search..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
