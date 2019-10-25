@@ -22,7 +22,6 @@ namespace HoloLensAppManager.Helpers
 
         static public SupportedArchitectureType GetSupportedArchitectureFromAppPackage(string appPackageName)
         {
-            // TODO
             var pattern = @"(_([a-zA-Z0-9]+))+.(appxbundle|msixbundle)$";
             Match m = Regex.Match(appPackageName, pattern, RegexOptions.IgnoreCase);
             if (!m.Success)
@@ -51,6 +50,17 @@ namespace HoloLensAppManager.Helpers
             }
 
             return architecture;
+        }
+
+        static public bool IsValidArchitecture(string name)
+        {
+            foreach (var architecture in Enum.GetNames(typeof(SupportedArchitectureType))) {
+                if(architecture.ToLower() == name.ToLower())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

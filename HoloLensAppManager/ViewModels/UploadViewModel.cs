@@ -245,14 +245,31 @@ namespace HoloLensAppManager.ViewModels
             try
             {
                 var dependenciesFolder = await folder.GetFolderAsync("Dependencies");
-                var x86Folder = await dependenciesFolder?.GetFolderAsync("x86");
-                var dependencies = await x86Folder?.GetFilesAsync();
 
-                foreach (var dependency in dependencies)
+                if (dependenciesFolder == null)
                 {
-                    await SelectFile(dependency);
+                    return;
                 }
-            }catch(Exception e)
+
+                var folders = await dependenciesFolder.GetFoldersAsync();
+                foreach(var depFolder in folders)
+                {
+                    bool isValid = SupportedArchitectureHelper.IsValidArchitecture(depFolder.Name);
+
+                    if (!isValid)
+                    {
+                        continue;
+                    }
+
+                    var dependencies = await depFolder.GetFilesAsync();
+
+                    foreach (var dependency in dependencies)
+                    {
+                        await SelectFile(dependency);
+                    }
+                }
+            }
+            catch(Exception e)
             {
                 Debug.WriteLine("folder not found");
             }
