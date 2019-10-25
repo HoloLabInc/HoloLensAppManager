@@ -207,36 +207,41 @@ namespace HoloLensAppManager.ViewModels
 
         #region アプリリストでの検索機能
         public async Task SearchWithQuery(string searchQuery)
-        {         
-            var keywords = keywordString.Split(' ');
-            var list = AppInfoList;
-
+        {
             searchedAppInfoList.Clear();
-            foreach (var app in list)
+            var newList = new ObservableCollection<AppInfoForInstall>(AppInfoList.Where(app => MatchWithSearchQuery(app, searchQuery)));
+            foreach (var app in newList)
             {
-                bool description = IsContainStringArray(app.AppInfo.Description.ToLower(), keywords);
-                bool name = IsContainStringArray(app.AppInfo.Name.ToLower(), keywords);
-                bool developerName = IsContainStringArray(app.AppInfo.DeveloperName.ToLower(), keywords);
-
-                if (description || name || developerName)
-                {
-                    searchedAppInfoList.Add(app);
-                }           
+                searchedAppInfoList.Add(app);
             }
         }
-
-        private bool IsContainStringArray(string aString, string[] stringArray)
+                
+        private bool MatchWithSearchQuery(AppInfoForInstall app, string searchQuery)
         {
-            foreach (var string_ in stringArray)
+            var keywords = searchQuery.Split(' ');
+            bool description = CheckIfContainStringArray(app.AppInfo.Description.ToLower(), keywords);
+            bool name = CheckIfContainStringArray(app.AppInfo.Name.ToLower(), keywords);
+            bool developerName = CheckIfContainStringArray(app.AppInfo.DeveloperName.ToLower(), keywords);
+
+            if (description || name || developerName)
             {
-                if (int.TryParse(string_, out int result))
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckIfContainStringArray(string aString, string[] stringArray)
+        {
+            foreach (var element in stringArray)
+            {
+                if (int.TryParse(element, out int result))
                 {
                     if (!aString.Contains(result.ToString()))
                     {
                         return false;
                     }
                 }
-                else if (!aString.Contains(string_.ToString().ToLower()))
+                else if (!aString.Contains(element.ToString().ToLower()))
                 {
                     return false;
                 }
