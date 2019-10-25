@@ -206,7 +206,7 @@ namespace HoloLensAppManager.ViewModels
         #endregion
 
         #region アプリリストでの検索機能
-        public async Task SearhWithKeyword(string keywordString)
+        public async Task SearchWithQuery(string searchQuery)
         {         
             var keywords = keywordString.Split(' ');
             var list = AppInfoList;
