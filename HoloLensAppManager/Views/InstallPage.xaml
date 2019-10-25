@@ -60,6 +60,7 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -104,8 +105,16 @@
                 <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" BorderBrush="{StaticResource ThemeControlForegroundBaseHighBrush}" BorderThickness="1" Height="1" Margin="0 10" VerticalAlignment="Top"/>
             </Grid>
 
+            <TextBox Grid.Row="1"
+                     x:Uid="SearchTextBox"
+                     Margin="10,10,0,20"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"
+                     Height="30"
+                     Width="200"
+                     PlaceholderText="Search..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <ListView ItemsSource="{x:Bind Mode=OneWay, Path=ViewModel.AppInfoList}" x:Name="lv" Grid.Row="1" >
+            <ListView ItemsSource="{x:Bind Mode=OneWay, Path=ViewModel.SearchedAppInfoList}" x:Name="lv" Grid.Row="2">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment"  Value="Stretch"/>

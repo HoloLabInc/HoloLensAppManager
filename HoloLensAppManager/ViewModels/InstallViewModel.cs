@@ -64,11 +64,12 @@ namespace HoloLensAppManager.ViewModels
     {
         private ObservableCollection<AppInfoForInstall> appInfoList = new ObservableCollection<AppInfoForInstall>();
 
-        public ObservableCollection<AppInfoForInstall> AppInfoList
+        private ObservableCollection<AppInfoForInstall> searchedAppInfoList = new ObservableCollection<AppInfoForInstall>();
+        public ObservableCollection<AppInfoForInstall> SearchedAppInfoList
         {
             get
             {
-                return appInfoList;
+                return searchedAppInfoList;
             }
         }
 
@@ -161,6 +162,17 @@ namespace HoloLensAppManager.ViewModels
                 this.Set(ref this.successMessage, value);
             }
         }
+
+        private string query = "";
+        public string Query
+        {
+            get { return query; }
+            set
+            {
+                this.Set(ref this.query, value);
+                SearchWithQuery(query);
+            }
+        }
         #endregion
 
 
@@ -196,6 +208,48 @@ namespace HoloLensAppManager.ViewModels
         const string PasswordSettingKey = "DevicePassword";
         #endregion
 
+        #region アプリリストでの検索機能
+        public void SearchWithQuery(string searchQuery)
+        {
+            var newList = appInfoList.Where(app => MatchWithSearchQuery(app, searchQuery));
+            searchedAppInfoList.Clear();
+            foreach (var app in newList)
+            {
+                searchedAppInfoList.Add(app);
+            }
+        }
+
+        private bool MatchWithSearchQuery(AppInfoForInstall app, string searchQuery)
+        {
+            var keywords = searchQuery.Split(' ');
+
+            var description = app.AppInfo.Description;
+            var appName = app.AppInfo.Name;
+            var developerName = app.AppInfo.DeveloperName;
+
+            var searchTargets = new string[] { description, appName, developerName };
+
+            foreach (var keyword in keywords)
+            {
+                var keywordFound = false;
+                foreach (var target in searchTargets)
+                {
+                    if (target.ToLower().Contains(keyword.ToLower()))
+                    {
+                        keywordFound = true;
+                        break;
+                    }
+                }
+
+                if (!keywordFound)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        #endregion
 
         public enum ConnectionState
         {
@@ -274,7 +328,6 @@ namespace HoloLensAppManager.ViewModels
             return "";
         }
 
-
         public async Task UpdateApplicationList()
         {
             var list = await uploader.GetAppInfoListAsync();
@@ -292,6 +345,8 @@ namespace HoloLensAppManager.ViewModels
             {
                 app.SelectLatestVersion();
             }
+
+            SearchWithQuery(query);
         }
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)
