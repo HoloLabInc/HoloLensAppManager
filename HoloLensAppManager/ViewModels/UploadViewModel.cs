@@ -282,6 +282,7 @@ namespace HoloLensAppManager.ViewModels
             switch (ext)
             {
                 case ".appxbundle":
+                case ".msixbundle":
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
                     {
                         AppPackage = file;
@@ -335,13 +336,21 @@ namespace HoloLensAppManager.ViewModels
                 Version4 = StringToUint(version4),
             };
 
+            var supportedArchitecture = SupportedArchitectureHelper.GetSupportedArchitectureFromAppPackage(appPackage);
+
+            // アプリが対応するアーキテクチャ依存ファイルのみをアップロード
             var dependencies = new List<StorageFile>();
             foreach(var dep in dependenciesFiles)
             {
-                dependencies.Add(dep);
-            }
+                var parent = System.IO.Directory.GetParent(dep.Path);
+                var depArchitecture = SupportedArchitectureHelper.StringToSupportedArchitectureType(parent.Name);
 
-            var supportedArchitecture = SupportedArchitectureHelper.GetSupportedArchitectureFromAppPackage(appPackage);
+                if (supportedArchitecture.HasFlag(depArchitecture))
+                {
+                    dependencies.Add(dep);
+                    Debug.WriteLine(dep.Name);
+                }
+            }
             
             var uploadPackage = new Application()
             {

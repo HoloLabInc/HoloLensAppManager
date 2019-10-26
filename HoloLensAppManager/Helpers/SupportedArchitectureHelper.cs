@@ -29,27 +29,15 @@ namespace HoloLensAppManager.Helpers
                 return SupportedArchitectureType.None;
             }
 
-            var architecture = SupportedArchitectureType.None;
+            var supportedArchitecture = SupportedArchitectureType.None;
             foreach (Capture archiCapture in m.Groups[2].Captures)
             {
-                switch (archiCapture.Value.ToLower())
-                {
-                    case "x86":
-                        architecture |= SupportedArchitectureType.X86;
-                        break;
-                    case "x64":
-                        architecture |= SupportedArchitectureType.X64;
-                        break;
-                    case "arm":
-                        architecture |= SupportedArchitectureType.Arm;
-                        break;
-                    case "arm64":
-                        architecture |= SupportedArchitectureType.Arm64;
-                        break;
-                }
+                var architecture = StringToSupportedArchitectureType(archiCapture.Value);
+
+                supportedArchitecture |= architecture;
             }
 
-            return architecture;
+            return supportedArchitecture;
         }
 
         static public bool IsValidArchitecture(string name)
@@ -61,6 +49,22 @@ namespace HoloLensAppManager.Helpers
                 }
             }
             return false;
+        }
+
+        static public SupportedArchitectureType StringToSupportedArchitectureType(string architecture)
+        {
+            switch (architecture.ToLower())
+            {
+                case "x86":
+                    return SupportedArchitectureType.X86;
+                case "x64":
+                    return SupportedArchitectureType.X64;
+                case "arm":
+                    return SupportedArchitectureType.Arm;
+                case "arm64":
+                    return SupportedArchitectureType.Arm64;
+            }
+            return SupportedArchitectureType.None;
         }
     }
 }
