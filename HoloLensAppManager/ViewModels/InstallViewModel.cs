@@ -171,7 +171,7 @@ namespace HoloLensAppManager.ViewModels
             set
             {
                 this.Set(ref this.query, value);
-                SearchWithQuery(query);
+                UpdateDisplayedApp();
             }
         }
 
@@ -191,10 +191,12 @@ namespace HoloLensAppManager.ViewModels
             get { return targetIsHoloLens1; }
             set
             {
-                this.Set(ref this.targetIsHoloLens1, value);
                 if (value)
                 {
+                    this.Set(ref this.targetIsHoloLens1, true);
+                    this.Set(ref this.targetIsHoloLens2, false);
                     localSettings.Values[TargetDeviceSettingKey] = "HoloLens1";
+                    UpdateDisplayedApp();
                 }
             }
         }
@@ -205,10 +207,12 @@ namespace HoloLensAppManager.ViewModels
             get { return targetIsHoloLens2; }
             set
             {
-                this.Set(ref this.targetIsHoloLens2, value);
                 if (value)
                 {
+                    this.Set(ref this.targetIsHoloLens1, false);
+                    this.Set(ref this.targetIsHoloLens2, true);
                     localSettings.Values[TargetDeviceSettingKey] = "HoloLens2";
+                    UpdateDisplayedApp();
                 }
             }
         }
@@ -250,9 +254,11 @@ namespace HoloLensAppManager.ViewModels
         #endregion
 
         #region アプリリストでの検索機能
-        public void SearchWithQuery(string searchQuery)
+
+        private void UpdateDisplayedApp()
         {
-            var newList = appInfoList.Where(app => MatchWithSearchQuery(app, searchQuery));
+            var searchQuery = query;
+            var newList = appInfoList.Where(app => IsAppDisplayed(app, searchQuery));
 
             // 表示されなくなったアプリを searchedAppInfoList から削除
             for (int i = searchedAppInfoList.Count - 1; i >= 0; i--)
@@ -274,6 +280,22 @@ namespace HoloLensAppManager.ViewModels
                 }
                 newAppIndex += 1;
             }
+        }
+
+        private bool IsAppDisplayed(AppInfoForInstall app, string searchQuery)
+        {
+            var architectureIsValid = true;
+            var supportedArchtecture = app.AppInfo.SupportedArchitecture;
+            if (TargetIsHoloLens1) {
+                architectureIsValid = supportedArchtecture.HasFlag(SupportedArchitectureType.X86);
+            }
+            else if (TargetIsHoloLens2)
+            {
+                architectureIsValid = supportedArchtecture.HasFlag(SupportedArchitectureType.Arm)
+                    || supportedArchtecture.HasFlag(SupportedArchitectureType.Arm64);
+            }
+
+            return architectureIsValid && MatchWithSearchQuery(app, searchQuery);
         }
 
         private bool MatchWithSearchQuery(AppInfoForInstall app, string searchQuery)
@@ -412,7 +434,7 @@ namespace HoloLensAppManager.ViewModels
                 app.SelectLatestVersion();
             }
 
-            SearchWithQuery(query);
+            UpdateDisplayedApp();
         }
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)
