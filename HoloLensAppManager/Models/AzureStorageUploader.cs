@@ -1,10 +1,12 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using HoloLensAppManager.Helpers;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
@@ -47,7 +49,7 @@ namespace HoloLensAppManager.Models
                 await blockBlob_upload.UploadFromFileAsync(application.AppPackage);
 
                 // 依存ファイルを保存
-                var dependencyIds = new List<String>();
+                var dependencyIds = new List<string>();
                 foreach (var dep in application.Dependencies)
                 {
                     var parentFolder = await dep.GetParentAsync();
@@ -207,11 +209,9 @@ namespace HoloLensAppManager.Models
             {
                 CloudTable appInfoTable = tableClient.GetTableReference(AppInfoTableName);
 
-                // Construct the query operation for all customer entities where PartitionKey="Smith".
-                TableQuery<AppInfoEntity> query = new TableQuery<AppInfoEntity>();//.Where(); TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "Smith"));
+                TableQuery<AppInfoEntity> query = new TableQuery<AppInfoEntity>();
 
                 TableContinuationToken token = null;
-                //var entities = new List<AppInfoEntity>();
                 do
                 {
                     var queryResult = await appInfoTable.ExecuteQuerySegmentedAsync(new TableQuery<AppInfoEntity>(), token);
@@ -220,7 +220,6 @@ namespace HoloLensAppManager.Models
                     {
                         appInfoList.Add(appEntity.ConvertToAppInfo());
                     }
-                    //entities.AddRange(queryResult.Results);
                     token = queryResult.ContinuationToken;
                 } while (token != null);
 
@@ -319,7 +318,7 @@ namespace HoloLensAppManager.Models
             }
         }
 
-        public async Task<Application> Download(string appName, string version, ProcessorArchitecture architecture, bool useCache = true)
+        public async Task<(Application app, DownloadErrorType error)> Download(string appName, string version, SupportedArchitectureType desirableArchitecture, bool useCache = true)
         {
             try
             {
@@ -337,12 +336,11 @@ namespace HoloLensAppManager.Models
                     // Print the phone number of the result.
                     if (retrievedResult.Result == null)
                     {
-                        return null;
+                        return (null, DownloadErrorType.UnknownError);
                     }
                     var appPackageEntity = (AppPackageEntity)retrievedResult.Result;
 
                     application = appPackageEntity.ConvertToApplication();
-                    //var appPackageId = appPackage.AppPackageId;
                 }
 
                 // app package をダウンロード
@@ -350,35 +348,77 @@ namespace HoloLensAppManager.Models
                 var appPackage = await DownloadBrob(localFolder, application.AppPackageId, useCache);
                 if(appPackage == null)
                 {
-                    return null;
+                    return (null, DownloadErrorType.NetworkError);
                 }
                 else
                 {
                     application.AppPackage = appPackage;
                 }
 
+                // インストールするアプリのアーキテクチャタイプを決定
+                var appSupportedArchitecture = application.SupportedArchitecture;
+                SupportedArchitectureType installArchitecture =
+                    DecideInstallArchitecture(appSupportedArchitecture, desirableArchitecture);
+
+                if(installArchitecture == SupportedArchitectureType.None)
+                {
+                    return (null, DownloadErrorType.NotSupportedArchitecture);
+                }
+
                 application.Dependencies = new List<StorageFile>();
                 foreach (var depId in application.DependencyIds)
                 {
-                    // TODO 対応するバージョンのみをダウンロード
-                    // archtecture をチェック
+                    // 指定されたアーキテクチャの依存ファイルのみをダウンロード
+                    var pattern = @"^.+_(\w+)_([\w\.]+)$";
+                    var match = Regex.Match(depId, pattern);
+
+                    if (!match.Success)
+                    {
+                        continue;
+                    }
+
+                    var depArchitecture = SupportedArchitectureHelper.StringToSupportedArchitectureType(match.Captures[1].Value);
+                    if(depArchitecture != installArchitecture)
+                    {
+                        continue;
+                    }
+
                     var dep = await DownloadBrob(localFolder, depId, useCache);
                     if (dep == null)
                     {
-                        return null;
+                        return (null, DownloadErrorType.NetworkError);
                     }
                     else
                     {
                         application.Dependencies.Add(dep);
                     }
                 }
-                return application;
+                return (application, DownloadErrorType.NoError);
             }
             catch(Exception e)
             {
-                return null;
+                return (null, DownloadErrorType.NetworkError);
             }
+        }
 
+        private SupportedArchitectureType DecideInstallArchitecture(SupportedArchitectureType appSupportedArchitecture, SupportedArchitectureType desirableArchitecture)
+        {
+            var architectureOrder = new SupportedArchitectureType[]
+            {
+                SupportedArchitectureType.Arm64,
+                SupportedArchitectureType.Arm,
+                SupportedArchitectureType.X64,
+                SupportedArchitectureType.X86
+            };
+
+            foreach(var architecture in architectureOrder)
+            {
+                if(appSupportedArchitecture.HasFlag(architecture) && desirableArchitecture.HasFlag(architecture))
+                {
+                    return architecture;
+                }
+            }
+            return SupportedArchitectureType.None;
         }
 
         async Task<StorageFile> DownloadBrob(StorageFolder folder, string filename, bool useCache = true)
@@ -436,24 +476,10 @@ namespace HoloLensAppManager.Models
             }
         }
 
-
         string GetAppPackageName(Application app)
         {
             return $"{app.Name}_{app.Version.ToString(".")}";
-
-            /*
-            public bool UploadFile(string name, StoredFile file)
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool UploadPackageInfo(AppPackageInfo package)
-            {
-                throw new NotImplementedException();
-            }
-            */
         }
-
     }
 
     public class AppInfoEntity : TableEntity

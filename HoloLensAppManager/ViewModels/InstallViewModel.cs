@@ -175,8 +175,9 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
-        private ProcessorArchitecture architecture;
-        public ProcessorArchitecture Architecture
+        /*
+        private SupportedArchitectureType architecture;
+        public SupportedArchitectureType Architecture
         {
             get { return architecture; }
             set
@@ -184,6 +185,7 @@ namespace HoloLensAppManager.ViewModels
                 this.Set(ref this.architecture, value);
             }
         }
+        */
 
         private bool targetIsHoloLens1;
         public bool TargetIsHoloLens1
@@ -454,10 +456,31 @@ namespace HoloLensAppManager.ViewModels
 
             var appName = appForInstall.AppInfo.Name;
             var version = appForInstall.SelectedVersion.ToString();
-            var app = await uploader.Download(appName, version, Architecture);
+
+            SupportedArchitectureType supportedArchitecture = SupportedArchitectureType.None;
+            if (targetIsHoloLens1)
+            {
+                supportedArchitecture = SupportedArchitectureType.X86;
+            }
+            else if (targetIsHoloLens2)
+            {
+                supportedArchitecture = SupportedArchitectureType.Arm | SupportedArchitectureType.Arm64;
+            }
+
+            var (app, error) = await uploader.Download(appName, version, supportedArchitecture);
             if (app == null)
             {
-                ErrorMessage = $"{appForInstall.AppInfo.Name} のダウンロードに失敗しました";
+                switch (error)
+                {
+                    case DownloadErrorType.UnknownError:
+                    case DownloadErrorType.NetworkError:
+                        ErrorMessage = $"{appForInstall.AppInfo.Name} のダウンロードに失敗しました";
+                        break;
+                    case DownloadErrorType.NotSupportedArchitecture:
+                        ErrorMessage = $"対応するアーキテクチャのアプリパッケージがありません";
+                        break;
+                }
+
                 SuccessMessage = "";
                 indicator.Hide();
             }

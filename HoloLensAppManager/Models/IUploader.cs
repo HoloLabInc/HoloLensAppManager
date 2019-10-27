@@ -8,6 +8,14 @@ using Windows.System;
 
 namespace HoloLensAppManager.Models
 {
+    public enum DownloadErrorType
+    {
+        NoError = 0,
+        UnknownError,
+        NetworkError,
+        NotSupportedArchitecture
+    }
+
     interface IUploader
     {
         //bool UploadPackageInfo(AppPackageInfo package);
@@ -16,6 +24,6 @@ namespace HoloLensAppManager.Models
 
         Task<List<AppInfo>> GetAppInfoListAsync();
 
-        Task<Application> Download(string appName, string version, ProcessorArchitecture architecture, bool useCache = true);
+        Task<(Application app, DownloadErrorType error)> Download(string appName, string version, SupportedArchitectureType desirableArchitecture, bool useCache = true);
     }
 }
