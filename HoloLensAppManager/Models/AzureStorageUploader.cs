@@ -52,8 +52,8 @@ namespace HoloLensAppManager.Models
                 var dependencyIds = new List<string>();
                 foreach (var dep in application.Dependencies)
                 {
-                    var parentFolder = await dep.GetParentAsync();
-                    var architecture = parentFolder.Name; // x86, x64, arm
+                    var parent = System.IO.Directory.GetParent(dep.Path);
+                    var architecture = SupportedArchitectureHelper.StringToSupportedArchitectureType(parent.Name);
                     var dependencyId = $"{appPackageName}_{architecture}_{dep.Name}";
                     dependencyIds.Add(dependencyId);
                     CloudBlockBlob depBlockBlob = container.GetBlockBlobReference(dependencyId);
@@ -377,7 +377,9 @@ namespace HoloLensAppManager.Models
                         continue;
                     }
 
-                    var depArchitecture = SupportedArchitectureHelper.StringToSupportedArchitectureType(match.Captures[1].Value);
+                    var architectureString = match.Groups[1].Value;
+
+                    var depArchitecture = SupportedArchitectureHelper.StringToSupportedArchitectureType(architectureString);
                     if(depArchitecture != installArchitecture)
                     {
                         continue;
@@ -606,7 +608,8 @@ namespace HoloLensAppManager.Models
                 DeveloperName = Developer,
                 Description = Description,
                 Versions = AppVersions,
-                SupportedArchitecture = SupportedArchitecture
+                SupportedArchitecture = SupportedArchitecture,
+                LastUpdateTime = Timestamp.DateTime
             };
         }
     }

@@ -167,7 +167,10 @@ namespace HoloLensAppManager.Views
         /// </summary>
         public void Hide()
         {
-            this.popup.IsOpen = false;
+            if (popup != null)
+            {
+                popup.IsOpen = false;
+            }
 
             if (this.currentPage == null)
             {

@@ -372,7 +372,6 @@ namespace HoloLensAppManager.ViewModels
                 var uploadedMessageTemplate = r.GetString("Upload_SuccessMessage");
                 var uploadedMessage = string.Format(uploadedMessageTemplate, uploadPackage.Name + " " + uploadPackage.Version.ToString());
 
-
                 indicator?.Hide();
                 indicator = new BusyIndicator()
                 {
