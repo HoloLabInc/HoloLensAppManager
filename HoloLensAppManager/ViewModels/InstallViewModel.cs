@@ -253,10 +253,26 @@ namespace HoloLensAppManager.ViewModels
         public void SearchWithQuery(string searchQuery)
         {
             var newList = appInfoList.Where(app => MatchWithSearchQuery(app, searchQuery));
-            searchedAppInfoList.Clear();
+
+            // 表示されなくなったアプリを searchedAppInfoList から削除
+            for (int i = searchedAppInfoList.Count - 1; i >= 0; i--)
+            {
+                var app = searchedAppInfoList[i];
+                if (!newList.Contains(app))
+                {
+                    searchedAppInfoList.RemoveAt(i);
+                }
+            }
+
+            // 新しく表示されるアプリを searchedAppInfoList に追加
+            var newAppIndex = 0;
             foreach (var app in newList)
             {
-                searchedAppInfoList.Add(app);
+                if (!searchedAppInfoList.Contains(app))
+                {
+                    searchedAppInfoList.Insert(newAppIndex, app);
+                }
+                newAppIndex += 1;
             }
         }
 
