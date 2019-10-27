@@ -22,8 +22,7 @@
         <StaticResource ResourceKey="PageStyle"/>
     </Page.Style>
     <Grid
-        x:Name="ContentArea"
-        Margin="{StaticResource MediumLeftRightMargin}">
+        x:Name="ContentArea">
 
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleRow" Height="48"/>

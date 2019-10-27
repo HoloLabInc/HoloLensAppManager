@@ -16,20 +16,12 @@
     mc:Ignorable="d">
 
     <Grid
-        x:Name="ContentArea"
-        Margin="12,0,12,0">
+        x:Name="ContentArea">
 
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleRow" Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!--
-        <TextBlock
-            x:Name="TitlePage"
-            x:Uid="EditApplication_Title"
-            Style="{StaticResource PageTitleStyle}" />
-        -->
 
         <TextBlock Text="{x:Bind Mode=TwoWay, Path=ViewModel.PageTitle}" Style="{StaticResource PageTitleStyle}" />
 

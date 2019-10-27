@@ -23,8 +23,7 @@
     -->
 
     <Grid
-        x:Name="ContentArea"
-        Margin="12,0,12,0">
+        x:Name="ContentArea">
 
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleRow" Height="48"/>
