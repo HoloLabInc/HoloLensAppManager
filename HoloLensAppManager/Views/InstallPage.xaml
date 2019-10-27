@@ -10,6 +10,7 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:vm="using:HoloLensAppManager.ViewModels"
+    xmlns:System="using:System"
     x:Class="HoloLensAppManager.Views.InstallPage"
     Style="{StaticResource PageStyle}"
     x:Name="page"
@@ -139,11 +140,25 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Column="1"
+                                           Margin="0 8 0 0" Style="{StaticResource InstallAppUpdateTimeStyle}" HorizontalAlignment="Left"
+                                           Text="{x:Bind System:String.Format('{0:yyyy/MM/dd}', AppInfo.LastUpdateTime)}"/>
+
                                 <TextBlock Text="{x:Bind Path=AppInfo.Name}" Style="{StaticResource InstallAppNameStyle}" HorizontalAlignment="Left" />
-                                <TextBlock Text="{x:Bind Path=AppInfo.DeveloperName}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,0"/>
-                                <TextBlock Text="{x:Bind Path=AppInfo.Description}" Foreground="{StaticResource ThemeControlForegroundBaseMediumHighBrush}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,6"/>
-                            </StackPanel>
+                                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{x:Bind Path=AppInfo.DeveloperName}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,0"/>
+                                <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{x:Bind Path=AppInfo.Description}" Foreground="{StaticResource ThemeControlForegroundBaseMediumHighBrush}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,6"/>
+                            </Grid>
 
                             <ComboBox x:Name="VersionsCombo" Grid.Column="1" Height="30" Width="100" Margin="20 0" ItemsSource="{x:Bind Path=SortedVersions}" DisplayMemberPath="Display" VerticalAlignment="Center"
                                       SelectedItem="{x:Bind Mode=TwoWay, Path=SelectedVersion}"/>
