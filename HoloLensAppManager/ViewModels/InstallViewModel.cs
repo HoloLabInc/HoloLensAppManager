@@ -22,18 +22,26 @@ namespace HoloLensAppManager.ViewModels
     {
         public AppInfo AppInfo;
 
+        private List<AppVersion> sortedVersions;
         public List<AppVersion> SortedVersions
         {
             get
             {
+                if(sortedVersions != null)
+                {
+                    return sortedVersions;
+                }
                 if (AppInfo.Versions == null)
                 {
-                    return new List<AppVersion>();
+                    sortedVersions = new List<AppVersion>();
                 }
-                var list = AppInfo.Versions.ToList();
-                list.Sort();
-                list.Reverse();
-                return list;
+                else
+                {
+                    sortedVersions = AppInfo.Versions.ToList();
+                    sortedVersions.Sort();
+                    sortedVersions.Reverse();
+                }
+                return sortedVersions;
             }
         }
 
@@ -43,7 +51,10 @@ namespace HoloLensAppManager.ViewModels
             get { return selectedVersion; }
             set
             {
-                this.Set(ref this.selectedVersion, value);
+                if (value != null)
+                {
+                    this.Set(ref this.selectedVersion, value);
+                }
             }
         }
 
@@ -267,6 +278,7 @@ namespace HoloLensAppManager.ViewModels
                 if (!searchedAppInfoList.Contains(app))
                 {
                     searchedAppInfoList.Insert(newAppIndex, app);
+                    app.SelectLatestVersion();
                 }
                 newAppIndex += 1;
             }

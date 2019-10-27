@@ -160,9 +160,8 @@
                                 <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{x:Bind Path=AppInfo.Description}" Foreground="{StaticResource ThemeControlForegroundBaseMediumHighBrush}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,6"/>
                             </Grid>
 
-                            <ComboBox x:Name="VersionsCombo" Grid.Column="1" Height="30" Width="100" Margin="20 0" ItemsSource="{x:Bind Path=SortedVersions}" DisplayMemberPath="Display" VerticalAlignment="Center"
-                                      SelectedItem="{x:Bind Mode=TwoWay, Path=SelectedVersion}"/>
-
+                            <ComboBox x:Name="VersionsCombo" Grid.Column="1" Height="30" Width="100" Margin="20 0"  DisplayMemberPath="Display" VerticalAlignment="Center"
+                                      ItemsSource="{x:Bind Path=SortedVersions, Mode=OneWay}" SelectedItem="{x:Bind Mode=TwoWay, Path=SelectedVersion}"/>
 
                             <Button x:Uid="Install_Install" Grid.Column="2" Content="インストール" VerticalAlignment="Center">
                                 <Interactivity:Interaction.Behaviors>
