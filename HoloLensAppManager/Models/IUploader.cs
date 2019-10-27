@@ -16,11 +16,17 @@ namespace HoloLensAppManager.Models
         NotSupportedArchitecture
     }
 
+    public enum UploadStatusType
+    {
+        UnknownError = 0,
+        NewlyUploaded,
+        Updated,
+        NetworkError
+    }
+
     interface IUploader
     {
-        //bool UploadPackageInfo(AppPackageInfo package);
-        //bool UploadFile(string name, StoredFile file);
-        Task<bool> Upload(Application application);
+        Task<(AppInfo appInfo, UploadStatusType status)> Upload(Application application);
 
         Task<List<AppInfo>> GetAppInfoListAsync();
 

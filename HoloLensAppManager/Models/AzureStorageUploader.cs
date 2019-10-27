@@ -35,7 +35,7 @@ namespace HoloLensAppManager.Models
             localCacheFolder = ApplicationData.Current.LocalFolder;
         }
 
-        public async Task<bool> Upload(Application application)
+        public async Task<(AppInfo appInfo, UploadStatusType status)> Upload(Application application)
         {
             try
             {
@@ -80,6 +80,9 @@ namespace HoloLensAppManager.Models
                     await table.ExecuteAsync(insertOperation);
                 }
 
+                var isNewlyUploaded = true;
+                AppInfo appInfo;
+
                 // appinfo テーブルにパッケージのデータを保存
                 {
                     CloudTable appInfoTable = tableClient.GetTableReference(AppInfoTableName);
@@ -102,6 +105,7 @@ namespace HoloLensAppManager.Models
                     {
                         appInfoEntry.Description = updateEntity.Description;
                         appInfoEntry.AppVersions = updateEntity.AppVersions;
+                        isNewlyUploaded = false;
                     }
 
                     if(appInfoEntry.AppVersions == null)
@@ -112,14 +116,23 @@ namespace HoloLensAppManager.Models
 
                     TableOperation insertOperation = TableOperation.InsertOrReplace(appInfoEntry);
                     await appInfoTable.ExecuteAsync(insertOperation);
+
+                    appInfo = appInfoEntry.ConvertToAppInfo();
                 }
 
-                return true;
+                if (isNewlyUploaded)
+                {
+                    return (appInfo, UploadStatusType.NewlyUploaded);
+                }
+                else
+                {
+                    return (appInfo, UploadStatusType.Updated);
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                return false;
+                return (null, UploadStatusType.NetworkError);
             }
         }
 

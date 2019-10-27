@@ -7,18 +7,12 @@ namespace HoloLensAppManager.Models
 {
     class DummyUploader : IUploader
     {
-        public Task<(Application app, DownloadErrorType error)> Download(string appName, string version, SupportedArchitectureType architecture, bool useCache = true)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<AppInfo>> GetAppInfoListAsync()
         {
             var dummyAppVersion = new HashSet<AppVersion>()
             {
                 new AppVersion("1.0.0.0")
             };
-
 
             var appInfoList = new List<AppInfo>();
 
@@ -76,7 +70,12 @@ namespace HoloLensAppManager.Models
             return appInfoList;
         }
 
-        public Task<bool> Upload(Application application)
+        public Task<(AppInfo appInfo, UploadStatusType status)> Upload(Application application)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(Application app, DownloadErrorType error)> Download(string appName, string version, SupportedArchitectureType architecture, bool useCache = true)
         {
             throw new NotImplementedException();
         }

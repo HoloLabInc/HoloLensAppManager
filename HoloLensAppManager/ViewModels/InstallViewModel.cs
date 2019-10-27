@@ -175,18 +175,6 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
-        /*
-        private SupportedArchitectureType architecture;
-        public SupportedArchitectureType Architecture
-        {
-            get { return architecture; }
-            set
-            {
-                this.Set(ref this.architecture, value);
-            }
-        }
-        */
-
         private bool targetIsHoloLens1;
         public bool TargetIsHoloLens1
         {

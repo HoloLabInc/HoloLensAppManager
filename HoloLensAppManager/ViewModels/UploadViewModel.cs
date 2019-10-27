@@ -12,6 +12,7 @@ using HoloLensAppManager.Views;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Data;
+using HoloLensAppManager.Services;
 
 namespace HoloLensAppManager.ViewModels
 {
@@ -381,24 +382,34 @@ namespace HoloLensAppManager.ViewModels
 
                 SuccessMessage = uploadingMessage;
 
-                bool result = await uploader.Upload(uploadPackage);
-                if (result)
-                {
-                    // 入力項目をクリア
-                    Version1 = "";
-                    Version2 = "";
-                    Version3 = "";
-                    Version4 = "";
-                    Name = "";
-                    AppPackage = null;
-                    await ClearDependency();
+                var (appInfo, result) = await uploader.Upload(uploadPackage);
 
-                    SuccessMessage = uploadedMessage;
-                }
-                else
+                switch (result)
                 {
-                    SuccessMessage = "";
-                    ErrorMessage = r.GetString("Upload_FailureMessage");
+                    case UploadStatusType.NewlyUploaded:
+                        var app = new AppInfoForInstall()
+                        {
+                            AppInfo = appInfo
+                        };
+                        app.SelectLatestVersion();
+                        NavigationService.Navigate(typeof(EditApplicationPage), app);
+                        break;
+                    case UploadStatusType.Updated:
+                        // 入力項目をクリア
+                        Version1 = "";
+                        Version2 = "";
+                        Version3 = "";
+                        Version4 = "";
+                        Name = "";
+                        AppPackage = null;
+                        await ClearDependency();
+                        SuccessMessage = uploadedMessage;
+                        break;
+                    case UploadStatusType.NetworkError:
+                    case UploadStatusType.UnknownError:
+                        SuccessMessage = "";
+                        ErrorMessage = r.GetString("Upload_FailureMessage");
+                        break;
                 }
                 indicator?.Hide();
             }
@@ -434,7 +445,6 @@ namespace HoloLensAppManager.ViewModels
             });
         }
 
-
         static uint? StringToUint(string number)
         {
             if (uint.TryParse(number, out uint result))
@@ -467,6 +477,4 @@ namespace HoloLensAppManager.ViewModels
             }
         }
     }
-
-
 }
