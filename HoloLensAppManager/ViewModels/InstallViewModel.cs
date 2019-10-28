@@ -74,7 +74,7 @@ namespace HoloLensAppManager.ViewModels
 
     public class InstallViewModel : Observable
     {
-        private ObservableCollection<AppInfoForInstall> appInfoList = new ObservableCollection<AppInfoForInstall>();
+        private List<AppInfoForInstall> appInfoList = new List<AppInfoForInstall>();
 
         private ObservableCollection<AppInfoForInstall> searchedAppInfoList = new ObservableCollection<AppInfoForInstall>();
         public ObservableCollection<AppInfoForInstall> SearchedAppInfoList
@@ -193,26 +193,26 @@ namespace HoloLensAppManager.ViewModels
             set
             {
                 this.Set(ref this.sortKeyIndex, value);
-                SortDisplayedApp();
+                UpdateSortCondition();
             }
         }
 
-        private enum sortValue
+        private enum SortConditionType
         {
-            None,
+            None = 0,
             UpdatedDateAscending,
             UpdataDateDescending,
             AppNameAscending,
             AppNameDescending,
         }
 
-        private Dictionary<int, sortValue> sortStringDictionary = new Dictionary<int, sortValue>()
+        private Dictionary<int, SortConditionType> sortStringDictionary = new Dictionary<int, SortConditionType>()
         {
-            {-1, sortValue.None},
-            {0, sortValue.UpdatedDateAscending},
-            {1, sortValue.UpdataDateDescending},
-            {2, sortValue.AppNameAscending},
-            {3, sortValue.AppNameDescending},
+            {-1, SortConditionType.None},
+            {0, SortConditionType.UpdatedDateAscending},
+            {1, SortConditionType.UpdataDateDescending},
+            {2, SortConditionType.AppNameAscending},
+            {3, SortConditionType.AppNameDescending},
         };
 
         private bool targetIsHoloLens1;
@@ -311,7 +311,6 @@ namespace HoloLensAppManager.ViewModels
                 }
                 newAppIndex += 1;
             }
-            SortDisplayedApp();
         }
 
         private bool IsAppDisplayed(AppInfoForInstall app, string searchQuery)
@@ -364,36 +363,28 @@ namespace HoloLensAppManager.ViewModels
 
         #region アプリリストソート機能
 
-        private void SortDisplayedApp()
+        private void UpdateSortCondition()
         {
-            var newList = new ObservableCollection<AppInfoForInstall>();
-
             switch (sortStringDictionary[sortKeyIndex])
             {
-                case sortValue.None:
+                case SortConditionType.None:
                     return;
-                case sortValue.UpdatedDateAscending:
-                    newList = new ObservableCollection<AppInfoForInstall>(
-                        searchedAppInfoList.OrderByDescending(app => app.AppInfo.LastUpdateTime));
+                case SortConditionType.UpdatedDateAscending:
+                    appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
                     break;
-                case sortValue.UpdataDateDescending:
-                    newList = new ObservableCollection<AppInfoForInstall>(
-                        searchedAppInfoList.OrderBy(app => app.AppInfo.LastUpdateTime));
+                case SortConditionType.UpdataDateDescending:
+                    appInfoList.Sort((a, b) => a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
                     break;
-                case sortValue.AppNameAscending:
-                    newList = new ObservableCollection<AppInfoForInstall>(
-                        searchedAppInfoList.OrderBy(app => app.AppInfo.Name));
+                case SortConditionType.AppNameAscending:
+                    appInfoList.Sort((a, b) => a.AppInfo.Name.CompareTo(b.AppInfo.Name));
                     break;
-                case sortValue.AppNameDescending:
-                    newList = new ObservableCollection<AppInfoForInstall>(
-                        searchedAppInfoList.OrderByDescending(app => app.AppInfo.Name));
+                case SortConditionType.AppNameDescending:
+                    appInfoList.Sort((a, b) => -a.AppInfo.Name.CompareTo(b.AppInfo.Name));
                     break;
             }
+
             searchedAppInfoList.Clear();
-            foreach (var app in newList)
-            {
-                searchedAppInfoList.Add(app);
-            }
+            UpdateDisplayedApp();
         }
         #endregion
 
