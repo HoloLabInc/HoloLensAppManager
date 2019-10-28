@@ -120,8 +120,8 @@
                      Width="200"
                      PlaceholderText="検索..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <ComboBox PlaceholderText="Sort..." Width="200" VerticalAlignment="Top" Margin="50,0,0,0" SelectedIndex="{x:Bind ViewModel.SortKeyIndex,Mode=TwoWay}">
-                        <x:String> 更新日（新しい順）</x:String> 
+                    <ComboBox PlaceholderText="ソート欄" Width="200" VerticalAlignment="Top" Margin="40,0,0,0" SelectedIndex="{x:Bind ViewModel.SortKeyIndex,Mode=TwoWay}">
+                        <x:String>更新日（新しい順）</x:String> 
                         <x:String>更新日（古い順）</x:String>
                         <x:String>アプリ名（昇順）</x:String>
                         <x:String>アプリ名（降順）</x:String>
