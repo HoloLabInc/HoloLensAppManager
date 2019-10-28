@@ -117,9 +117,8 @@
                      Margin="10,0,0,0"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     Height="30"
                      Width="200"
-                     PlaceholderText="Search..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
+                     PlaceholderText="検索..." Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <ComboBox PlaceholderText="Sort..." Width="200" VerticalAlignment="Top" Margin="50,0,0,0" SelectedIndex="{x:Bind ViewModel.SortKeyIndex,Mode=TwoWay}">
                         <x:String> 更新日（新しい順）</x:String> 
