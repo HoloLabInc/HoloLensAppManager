@@ -193,6 +193,7 @@ namespace HoloLensAppManager.ViewModels
             set
             {
                 this.Set(ref this.sortKeyIndex, value);
+                localSettings.Values[SortCondition] = value;
                 UpdateSortCondition();
             }
         }
@@ -281,6 +282,7 @@ namespace HoloLensAppManager.ViewModels
         const string UsernameSettingKey = "DeviceUserName";
         const string PasswordSettingKey = "DevicePassword";
         const string TargetDeviceSettingKey = "TargetDevice";
+        const string SortCondition = "SortCondition";
         #endregion
 
         #region アプリリストでの検索機能
