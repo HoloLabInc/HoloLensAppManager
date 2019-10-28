@@ -452,6 +452,9 @@ namespace HoloLensAppManager.ViewModels
             }
             #endregion
 
+            var ConditionTypeStr = LoadSettingData(localSettings, SortCondition);
+            int.TryParse(ConditionTypeStr, out var savedSortKey);
+            SortKeyIndex = savedSortKey;
             UpdateApplicationList();
 
             indicator = new BusyIndicator()
