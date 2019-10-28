@@ -186,6 +186,35 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
+        private int sortKeyIndex = -1;
+        public int SortKeyIndex
+        {
+            get { return sortKeyIndex; }
+            set
+            {
+                this.Set(ref this.sortKeyIndex, value);
+                SortDisplayedApp();
+            }
+        }
+
+        private enum sortValue
+        {
+            None,
+            UpdatedDateAscending,
+            UpdataDateDescending,
+            AppNameAscending,
+            AppNameDescending,
+        }
+
+        private Dictionary<int, sortValue> sortStringDictionary = new Dictionary<int, sortValue>()
+        {
+            {-1, sortValue.None},
+            {0, sortValue.UpdatedDateAscending},
+            {1, sortValue.UpdataDateDescending},
+            {2, sortValue.AppNameAscending},
+            {3, sortValue.AppNameDescending},
+        };
+
         private bool targetIsHoloLens1;
         public bool TargetIsHoloLens1
         {
@@ -282,6 +311,7 @@ namespace HoloLensAppManager.ViewModels
                 }
                 newAppIndex += 1;
             }
+            SortDisplayedApp();
         }
 
         private bool IsAppDisplayed(AppInfoForInstall app, string searchQuery)
@@ -330,6 +360,41 @@ namespace HoloLensAppManager.ViewModels
             return true;
         }
 
+        #endregion
+
+        #region アプリリストソート機能
+
+        private void SortDisplayedApp()
+        {
+            var newList = new ObservableCollection<AppInfoForInstall>();
+
+            switch (sortStringDictionary[sortKeyIndex])
+            {
+                case sortValue.None:
+                    return;
+                case sortValue.UpdatedDateAscending:
+                    newList = new ObservableCollection<AppInfoForInstall>(
+                        searchedAppInfoList.OrderByDescending(app => app.AppInfo.LastUpdateTime));
+                    break;
+                case sortValue.UpdataDateDescending:
+                    newList = new ObservableCollection<AppInfoForInstall>(
+                        searchedAppInfoList.OrderBy(app => app.AppInfo.LastUpdateTime));
+                    break;
+                case sortValue.AppNameAscending:
+                    newList = new ObservableCollection<AppInfoForInstall>(
+                        searchedAppInfoList.OrderBy(app => app.AppInfo.Name));
+                    break;
+                case sortValue.AppNameDescending:
+                    newList = new ObservableCollection<AppInfoForInstall>(
+                        searchedAppInfoList.OrderByDescending(app => app.AppInfo.Name));
+                    break;
+            }
+            searchedAppInfoList.Clear();
+            foreach (var app in newList)
+            {
+                searchedAppInfoList.Add(app);
+            }
+        }
         #endregion
 
         public enum ConnectionState

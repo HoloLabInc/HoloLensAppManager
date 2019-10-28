@@ -40,7 +40,8 @@ namespace HoloLensAppManager.Models
                 DeveloperName = "DummyDeveloper3",
                 Description = "This app targets x86 and arm",
                 SupportedArchitecture = SupportedArchitectureType.X86 | SupportedArchitectureType.Arm,
-                Versions = dummyAppVersion
+                Versions = dummyAppVersion,
+                LastUpdateTime = DateTime.MinValue,
             };
 
             var fourthApp = new AppInfo
@@ -49,7 +50,8 @@ namespace HoloLensAppManager.Models
                 DeveloperName = "DummyDeveloper4",
                 Description = "This app targets all",
                 SupportedArchitecture = SupportedArchitectureType.X64 | SupportedArchitectureType.X86 | SupportedArchitectureType.Arm | SupportedArchitectureType.Arm64,
-                Versions = dummyAppVersion
+                Versions = dummyAppVersion,
+                LastUpdateTime = DateTime.MaxValue,
             };
 
             var fifthApp = new AppInfo
@@ -58,7 +60,8 @@ namespace HoloLensAppManager.Models
                 DeveloperName = "DummyDeveloper5",
                 Description = "This app targets all",
                 SupportedArchitecture = SupportedArchitectureType.X64 | SupportedArchitectureType.X86 | SupportedArchitectureType.Arm | SupportedArchitectureType.Arm64,
-                Versions = dummyAppVersion
+                Versions = dummyAppVersion,
+                LastUpdateTime = DateTime.Today,
             };
 
             appInfoList.Add(firstApp);
