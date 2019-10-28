@@ -186,7 +186,7 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
-        private int sortKeyIndex = -1;
+        private int sortKeyIndex = 0;
         public int SortKeyIndex
         {
             get { return sortKeyIndex; }
