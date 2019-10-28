@@ -101,7 +101,11 @@ namespace HoloLensAppManager.Models
                     TableResult retrievedResult = await appInfoTable.ExecuteAsync(retrieveOperation);
                     AppInfoEntity updateEntity = (AppInfoEntity)retrievedResult.Result;
 
-                    if (updateEntity != null)
+                    if (updateEntity == null)
+                    {
+                        appInfoEntry.CreateAt = DateTime.Now;
+                    }
+                    else
                     {
                         appInfoEntry.Description = updateEntity.Description;
                         appInfoEntry.AppVersions = updateEntity.AppVersions;
@@ -510,6 +514,8 @@ namespace HoloLensAppManager.Models
         public string Description { set; get; }
         public string Developer { set; get; }
 
+        public DateTime CreateAt { set; get; }
+
         #region SupportedArchecture
         // for application
         public SupportedArchitectureType SupportedArchitecture
@@ -622,7 +628,8 @@ namespace HoloLensAppManager.Models
                 Description = Description,
                 Versions = AppVersions,
                 SupportedArchitecture = SupportedArchitecture,
-                LastUpdateTime = Timestamp.DateTime
+                CreateAt = CreateAt,
+                UpdateAt = Timestamp.DateTime,
             };
         }
     }

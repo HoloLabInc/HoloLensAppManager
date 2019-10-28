@@ -24,7 +24,8 @@ namespace HoloLensAppManager.Models
         public string Description;
         public SupportedArchitectureType SupportedArchitecture;
         public HashSet<AppVersion> Versions = new HashSet<AppVersion>();
-        public DateTime LastUpdateTime;
+        public DateTime CreateAt;
+        public DateTime UpdateAt;
     }
 
     // バージョンごとのアプリケーション

@@ -153,7 +153,7 @@
 
                                 <TextBlock Grid.Column="1"
                                            Margin="0 8 0 0" Style="{StaticResource InstallAppUpdateTimeStyle}" HorizontalAlignment="Left"
-                                           Text="{x:Bind System:String.Format('{0:yyyy/MM/dd}', AppInfo.LastUpdateTime)}"/>
+                                           Text="{x:Bind System:String.Format('{0:yyyy/MM/dd}', AppInfo.UpdateAt)}"/>
 
                                 <TextBlock Text="{x:Bind Path=AppInfo.Name}" Style="{StaticResource InstallAppNameStyle}" HorizontalAlignment="Left" />
                                 <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{x:Bind Path=AppInfo.DeveloperName}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,0"/>
