@@ -74,6 +74,28 @@ namespace HoloLensAppManager.ViewModels
 
     public class InstallViewModel : Observable
     {
+        /// <summary>
+        /// Sort condition
+        /// </summary>
+        private enum SortConditionType
+        {
+            UpdatedDateAscending,
+            UpdataDateDescending,
+            AppNameAscending,
+            AppNameDescending,
+        }
+
+        /*
+        private List<(SortConditionType, string)> sortCondition = new Dictionary<int, SortConditionType>()
+        {
+            {0, SortConditionType.UpdatedDateAscending},
+            {1, SortConditionType.UpdataDateDescending},
+            {2, SortConditionType.AppNameAscending},
+            {3, SortConditionType.AppNameDescending},
+        };
+        */
+
+
         private List<AppInfoForInstall> appInfoList = new List<AppInfoForInstall>();
 
         private ObservableCollection<AppInfoForInstall> searchedAppInfoList = new ObservableCollection<AppInfoForInstall>();
@@ -193,28 +215,10 @@ namespace HoloLensAppManager.ViewModels
             set
             {
                 this.Set(ref this.sortKeyIndex, value);
-                localSettings.Values[SortCondition] = value;
+                localSettings.Values[SortConditionSettingKey] = value;
                 UpdateSortCondition();
             }
         }
-
-        private enum SortConditionType
-        {
-            None = 0,
-            UpdatedDateAscending,
-            UpdataDateDescending,
-            AppNameAscending,
-            AppNameDescending,
-        }
-
-        private Dictionary<int, SortConditionType> sortStringDictionary = new Dictionary<int, SortConditionType>()
-        {
-            {-1, SortConditionType.None},
-            {0, SortConditionType.UpdatedDateAscending},
-            {1, SortConditionType.UpdataDateDescending},
-            {2, SortConditionType.AppNameAscending},
-            {3, SortConditionType.AppNameDescending},
-        };
 
         private bool targetIsHoloLens1;
         public bool TargetIsHoloLens1
@@ -282,7 +286,7 @@ namespace HoloLensAppManager.ViewModels
         const string UsernameSettingKey = "DeviceUserName";
         const string PasswordSettingKey = "DevicePassword";
         const string TargetDeviceSettingKey = "TargetDevice";
-        const string SortCondition = "SortCondition";
+        const string SortConditionSettingKey = "SortCondition";
         #endregion
 
         #region アプリリストでの検索機能
@@ -367,10 +371,9 @@ namespace HoloLensAppManager.ViewModels
 
         private void UpdateSortCondition()
         {
-            switch (sortStringDictionary[sortKeyIndex])
+            var sortCondition = (SortConditionType)Enum.ToObject(typeof(SortConditionType), sortKeyIndex);
+            switch (sortCondition)
             {
-                case SortConditionType.None:
-                    return;
                 case SortConditionType.UpdatedDateAscending:
                     appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
                     break;
@@ -382,6 +385,10 @@ namespace HoloLensAppManager.ViewModels
                     break;
                 case SortConditionType.AppNameDescending:
                     appInfoList.Sort((a, b) => -a.AppInfo.Name.CompareTo(b.AppInfo.Name));
+                    break;
+                default:
+                    // same as UpdatedDateAscending
+                    appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
                     break;
             }
 
@@ -415,6 +422,8 @@ namespace HoloLensAppManager.ViewModels
 
         public InstallViewModel()
         {
+            // 検索項目の設定
+
             // 接続情報の設定
             Address = LoadSettingData(localSettings, AddressSettingKey);
             try
@@ -437,7 +446,9 @@ namespace HoloLensAppManager.ViewModels
                 TargetIsHoloLens2 = true;
             }
 
-            #region ローカルでデバッグする設定
+            SortKeyIndex = LoadSettingData<int>(localSettings, SortConditionSettingKey);
+
+            // ローカルデバッグ設定
             var settings = ResourceLoader.GetForCurrentView("settings");
             var debugSetting = settings.GetString("LOCAL_DEBUG");
 
@@ -450,12 +461,8 @@ namespace HoloLensAppManager.ViewModels
             {
                 uploader = new AzureStorageUploader();
             }
-            #endregion
 
-            var ConditionTypeStr = LoadSettingData(localSettings, SortCondition);
-            int.TryParse(ConditionTypeStr, out var savedSortKey);
-            SortKeyIndex = savedSortKey;
-            UpdateApplicationList();
+            _ = UpdateApplicationList();
 
             indicator = new BusyIndicator()
             {
@@ -479,6 +486,17 @@ namespace HoloLensAppManager.ViewModels
             return "";
         }
 
+        private T LoadSettingData<T>(ApplicationDataContainer setting, string key)
+        {
+            object val = localSettings.Values[key];
+            if (val != null && val is T)
+            {
+                return (T)val;
+            }
+            return default;
+        }
+
+
         public async Task UpdateApplicationList()
         {
             var list = await uploader.GetAppInfoListAsync();
@@ -497,7 +515,7 @@ namespace HoloLensAppManager.ViewModels
                 app.SelectLatestVersion();
             }
 
-            UpdateDisplayedApp();
+            UpdateSortCondition();
         }
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)
