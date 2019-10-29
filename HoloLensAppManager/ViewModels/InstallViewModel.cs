@@ -79,22 +79,11 @@ namespace HoloLensAppManager.ViewModels
         /// </summary>
         private enum SortConditionType
         {
-            UpdateDateDescending,
+            UpdateDateDescending = 0,
             UpdateDateAscending,
             AppNameAscending,
             AppNameDescending,
         }
-
-        /*
-        private List<(SortConditionType, string)> sortCondition = new Dictionary<int, SortConditionType>()
-        {
-            {0, SortConditionType.UpdatedDateAscending},
-            {1, SortConditionType.UpdataDateDescending},
-            {2, SortConditionType.AppNameAscending},
-            {3, SortConditionType.AppNameDescending},
-        };
-        */
-
 
         private List<AppInfoForInstall> appInfoList = new List<AppInfoForInstall>();
 
