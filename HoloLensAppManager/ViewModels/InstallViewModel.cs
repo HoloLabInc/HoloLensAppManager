@@ -311,6 +311,11 @@ namespace HoloLensAppManager.ViewModels
 
         private bool IsAppDisplayed(AppInfoForInstall app, string searchQuery)
         {
+            if(app.AppInfo.Versions.Count == 0)
+            {
+                return false;
+            }
+
             var architectureIsValid = true;
             var supportedArchtecture = app.AppInfo.SupportedArchitecture;
             if (TargetIsHoloLens1) {
@@ -365,10 +370,10 @@ namespace HoloLensAppManager.ViewModels
             switch (sortCondition)
             {
                 case SortConditionType.UpdateDateAscending:
-                    appInfoList.Sort((a, b) => a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    appInfoList.Sort((a, b) => a.AppInfo.UpdateAt.CompareTo(b.AppInfo.UpdateAt));
                     break;
                 case SortConditionType.UpdateDateDescending:
-                    appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    appInfoList.Sort((a, b) => -a.AppInfo.UpdateAt.CompareTo(b.AppInfo.UpdateAt));
                     break;
                 case SortConditionType.AppNameAscending:
                     appInfoList.Sort((a, b) => a.AppInfo.Name.CompareTo(b.AppInfo.Name));
@@ -378,7 +383,7 @@ namespace HoloLensAppManager.ViewModels
                     break;
                 default:
                     // same as UpdatedDateAscending
-                    appInfoList.Sort((a, b) => a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    appInfoList.Sort((a, b) => a.AppInfo.UpdateAt.CompareTo(b.AppInfo.UpdateAt));
                     break;
             }
 
@@ -527,6 +532,16 @@ namespace HoloLensAppManager.ViewModels
             {
                 return;
             }
+
+            if(appForInstall.SelectedVersion == null)
+            {
+                appForInstall.SelectLatestVersion();
+                if(appForInstall.SelectedVersion == null)
+                {
+                    return;
+                }
+            }
+
             indicator = new BusyIndicator()
             {
                 Message = $"{appForInstall.AppInfo.Name} をダウンロードしています。しばらくお待ちください..."

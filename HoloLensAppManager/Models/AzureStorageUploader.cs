@@ -107,6 +107,7 @@ namespace HoloLensAppManager.Models
                     }
                     else
                     {
+                        appInfoEntry.CreateAt = updateEntity.CreateAt;
                         appInfoEntry.Description = updateEntity.Description;
                         appInfoEntry.AppVersions = updateEntity.AppVersions;
                         isNewlyUploaded = false;

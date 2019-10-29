@@ -304,7 +304,6 @@ namespace HoloLensAppManager.ViewModels
                     });
                     break;
                 case ".appx":
-                    Debug.WriteLine("dependencies");
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
                     {
                         foreach(var dep in dependenciesFiles)
@@ -349,7 +348,6 @@ namespace HoloLensAppManager.ViewModels
                 if (supportedArchitecture.HasFlag(depArchitecture))
                 {
                     dependencies.Add(dep);
-                    Debug.WriteLine(dep.Name);
                 }
             }
             
