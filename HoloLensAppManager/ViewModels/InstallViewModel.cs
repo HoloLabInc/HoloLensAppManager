@@ -79,8 +79,8 @@ namespace HoloLensAppManager.ViewModels
         /// </summary>
         private enum SortConditionType
         {
-            UpdatedDateAscending,
-            UpdataDateDescending,
+            UpdateDateDescending,
+            UpdateDateAscending,
             AppNameAscending,
             AppNameDescending,
         }
@@ -208,6 +208,8 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
+        public List<string> SortConditions { get; }
+
         private int sortKeyIndex = 0;
         public int SortKeyIndex
         {
@@ -220,6 +222,7 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
+        // Device targeting
         private bool targetIsHoloLens1;
         public bool TargetIsHoloLens1
         {
@@ -251,9 +254,7 @@ namespace HoloLensAppManager.ViewModels
                 }
             }
         }
-
         #endregion
-
 
         #region コマンド
         private ICommand connectCommand;
@@ -374,11 +375,11 @@ namespace HoloLensAppManager.ViewModels
             var sortCondition = (SortConditionType)Enum.ToObject(typeof(SortConditionType), sortKeyIndex);
             switch (sortCondition)
             {
-                case SortConditionType.UpdatedDateAscending:
-                    appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
-                    break;
-                case SortConditionType.UpdataDateDescending:
+                case SortConditionType.UpdateDateAscending:
                     appInfoList.Sort((a, b) => a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    break;
+                case SortConditionType.UpdateDateDescending:
+                    appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
                     break;
                 case SortConditionType.AppNameAscending:
                     appInfoList.Sort((a, b) => a.AppInfo.Name.CompareTo(b.AppInfo.Name));
@@ -388,7 +389,7 @@ namespace HoloLensAppManager.ViewModels
                     break;
                 default:
                     // same as UpdatedDateAscending
-                    appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    appInfoList.Sort((a, b) => a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
                     break;
             }
 
@@ -423,6 +424,19 @@ namespace HoloLensAppManager.ViewModels
         public InstallViewModel()
         {
             // 検索項目の設定
+            var sortConditionTexts = new Dictionary<SortConditionType, string>()
+            {
+                { SortConditionType.UpdateDateDescending, "更新日（新しい順）" },
+                { SortConditionType.UpdateDateAscending, "更新日（古い順）" },
+                { SortConditionType.AppNameAscending, "アプリ名（昇順）" },
+                { SortConditionType.AppNameDescending, "アプリ名（降順）" }
+            };
+
+            SortConditions = new List<string>();
+            foreach (SortConditionType sortCondition in Enum.GetValues(typeof(SortConditionType)))
+            {
+                SortConditions.Add(sortConditionTexts[sortCondition]);
+            }
 
             // 接続情報の設定
             Address = LoadSettingData(localSettings, AddressSettingKey);
