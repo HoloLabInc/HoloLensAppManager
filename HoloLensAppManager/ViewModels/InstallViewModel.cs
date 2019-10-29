@@ -74,7 +74,18 @@ namespace HoloLensAppManager.ViewModels
 
     public class InstallViewModel : Observable
     {
-        private ObservableCollection<AppInfoForInstall> appInfoList = new ObservableCollection<AppInfoForInstall>();
+        /// <summary>
+        /// Sort condition
+        /// </summary>
+        private enum SortConditionType
+        {
+            UpdateDateDescending = 0,
+            UpdateDateAscending,
+            AppNameAscending,
+            AppNameDescending,
+        }
+
+        private List<AppInfoForInstall> appInfoList = new List<AppInfoForInstall>();
 
         private ObservableCollection<AppInfoForInstall> searchedAppInfoList = new ObservableCollection<AppInfoForInstall>();
         public ObservableCollection<AppInfoForInstall> SearchedAppInfoList
@@ -186,6 +197,21 @@ namespace HoloLensAppManager.ViewModels
             }
         }
 
+        public List<string> SortConditions { get; }
+
+        private int sortKeyIndex = 0;
+        public int SortKeyIndex
+        {
+            get { return sortKeyIndex; }
+            set
+            {
+                this.Set(ref this.sortKeyIndex, value);
+                localSettings.Values[SortConditionSettingKey] = value;
+                UpdateSortCondition();
+            }
+        }
+
+        // Device targeting
         private bool targetIsHoloLens1;
         public bool TargetIsHoloLens1
         {
@@ -217,9 +243,7 @@ namespace HoloLensAppManager.ViewModels
                 }
             }
         }
-
         #endregion
-
 
         #region コマンド
         private ICommand connectCommand;
@@ -252,6 +276,7 @@ namespace HoloLensAppManager.ViewModels
         const string UsernameSettingKey = "DeviceUserName";
         const string PasswordSettingKey = "DevicePassword";
         const string TargetDeviceSettingKey = "TargetDevice";
+        const string SortConditionSettingKey = "SortCondition";
         #endregion
 
         #region アプリリストでの検索機能
@@ -332,6 +357,36 @@ namespace HoloLensAppManager.ViewModels
 
         #endregion
 
+        #region アプリリストソート機能
+
+        private void UpdateSortCondition()
+        {
+            var sortCondition = (SortConditionType)Enum.ToObject(typeof(SortConditionType), sortKeyIndex);
+            switch (sortCondition)
+            {
+                case SortConditionType.UpdateDateAscending:
+                    appInfoList.Sort((a, b) => a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    break;
+                case SortConditionType.UpdateDateDescending:
+                    appInfoList.Sort((a, b) => -a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    break;
+                case SortConditionType.AppNameAscending:
+                    appInfoList.Sort((a, b) => a.AppInfo.Name.CompareTo(b.AppInfo.Name));
+                    break;
+                case SortConditionType.AppNameDescending:
+                    appInfoList.Sort((a, b) => -a.AppInfo.Name.CompareTo(b.AppInfo.Name));
+                    break;
+                default:
+                    // same as UpdatedDateAscending
+                    appInfoList.Sort((a, b) => a.AppInfo.LastUpdateTime.CompareTo(b.AppInfo.LastUpdateTime));
+                    break;
+            }
+
+            searchedAppInfoList.Clear();
+            UpdateDisplayedApp();
+        }
+        #endregion
+
         public enum ConnectionState
         {
             NotConnected, Connecting, Connected
@@ -357,6 +412,21 @@ namespace HoloLensAppManager.ViewModels
 
         public InstallViewModel()
         {
+            // 検索項目の設定
+            var sortConditionTexts = new Dictionary<SortConditionType, string>()
+            {
+                { SortConditionType.UpdateDateDescending, "更新日（新しい順）" },
+                { SortConditionType.UpdateDateAscending, "更新日（古い順）" },
+                { SortConditionType.AppNameAscending, "アプリ名（昇順）" },
+                { SortConditionType.AppNameDescending, "アプリ名（降順）" }
+            };
+
+            SortConditions = new List<string>();
+            foreach (SortConditionType sortCondition in Enum.GetValues(typeof(SortConditionType)))
+            {
+                SortConditions.Add(sortConditionTexts[sortCondition]);
+            }
+
             // 接続情報の設定
             Address = LoadSettingData(localSettings, AddressSettingKey);
             try
@@ -379,7 +449,9 @@ namespace HoloLensAppManager.ViewModels
                 TargetIsHoloLens2 = true;
             }
 
-            #region ローカルでデバッグする設定
+            SortKeyIndex = LoadSettingData<int>(localSettings, SortConditionSettingKey);
+
+            // ローカルデバッグ設定
             var settings = ResourceLoader.GetForCurrentView("settings");
             var debugSetting = settings.GetString("LOCAL_DEBUG");
 
@@ -392,9 +464,8 @@ namespace HoloLensAppManager.ViewModels
             {
                 uploader = new AzureStorageUploader();
             }
-            #endregion
 
-            UpdateApplicationList();
+            _ = UpdateApplicationList();
 
             indicator = new BusyIndicator()
             {
@@ -418,6 +489,17 @@ namespace HoloLensAppManager.ViewModels
             return "";
         }
 
+        private T LoadSettingData<T>(ApplicationDataContainer setting, string key)
+        {
+            object val = localSettings.Values[key];
+            if (val != null && val is T)
+            {
+                return (T)val;
+            }
+            return default;
+        }
+
+
         public async Task UpdateApplicationList()
         {
             var list = await uploader.GetAppInfoListAsync();
@@ -436,7 +518,7 @@ namespace HoloLensAppManager.ViewModels
                 app.SelectLatestVersion();
             }
 
-            UpdateDisplayedApp();
+            UpdateSortCondition();
         }
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)
