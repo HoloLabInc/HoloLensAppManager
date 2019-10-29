@@ -27,7 +27,7 @@ namespace HoloLensAppManager.ViewModels
         {
             get
             {
-                if(sortedVersions != null)
+                if(sortedVersions != null && sortedVersions.Count() == AppInfo.Versions.Count())
                 {
                     return sortedVersions;
                 }

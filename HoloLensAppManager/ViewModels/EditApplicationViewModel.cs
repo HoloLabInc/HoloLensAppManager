@@ -127,8 +127,8 @@ namespace HoloLensAppManager.ViewModels
                 return;
             }
 
-            var res = await uploader.DeleteApplication(AppInfoForInstall.AppInfo.Name, removeVersion.ToString());
-            if (res)
+            var result = await uploader.DeleteApplication(AppInfoForInstall.AppInfo.Name, removeVersion.ToString());
+            if (result)
             {
                 RemoveSelectedVersionErrorMessage = $"バージョン: {removeVersion.ToString()} を削除しました";
                 AppInfoForInstall.AppInfo.Versions.Remove(removeVersion);
