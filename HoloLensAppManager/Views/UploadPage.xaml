@@ -78,13 +78,9 @@
                     <TextBlock x:Uid="App_Developer" Style="{StaticResource HeadingStyle}"  Margin="{StaticResource HeadingPadding}"/>
                     <TextBox Grid.Row="0" Text="{x:Bind Mode=TwoWay, Path=ViewModel.DeveloperName}"/>
 
-
                     <TextBlock x:Uid="App_Version" Style="{StaticResource HeadingStyle}" Margin="{StaticResource HeadingPadding}"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version1}" TextAlignment="Right" MinWidth="30"/>
-                        <!--
-                        <TextBox Text="1" TextAlignment="Right" MinWidth="40"/>
-                        -->
                         <TextBlock Text="." FontWeight="ExtraBold" VerticalAlignment="Bottom" Margin="{StaticResource VersionDotPadding}"/>
                         <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Version2}" TextAlignment="Right" MinWidth="30"/>
                         <TextBlock Text="." FontWeight="ExtraBold" VerticalAlignment="Bottom" Margin="{StaticResource VersionDotPadding}"/>
