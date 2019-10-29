@@ -121,4 +121,7 @@
     <value></value>
     <comment>Enter connection string of your Azure Storage Account</comment>
   </data>
+  <data name="LOCAL_DEBUG" xml:space="preserve">
+    <value>False</value>
+  </data>
 </root>
