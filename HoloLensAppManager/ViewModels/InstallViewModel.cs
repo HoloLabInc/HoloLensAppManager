@@ -626,12 +626,9 @@ namespace HoloLensAppManager.ViewModels
             string connectionAddress;
             Address = Address.Trim();
 
-            if (UsbConnection)
+            if (UsbConnection || Address.StartsWith("127.0.0.1"))
             {
-                connectionAddress = "http://127.0.0.1:10080";
-            }
-            else if (Address.StartsWith("127.0.0.1")) {
-                connectionAddress = $"http://{Address}";
+                connectionAddress = "https://127.0.0.1:10443";
             }
             else
             {
