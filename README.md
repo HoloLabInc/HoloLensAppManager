@@ -1,6 +1,9 @@
 # HoloLensAppManager
 HoloLensAppManager is a UWP application for sharing and installing HoloLens application packages.
 
+## Demo Video (Japanese)
+[![HoloLensAppManagerDemo](http://img.youtube.com/vi/S9UzEn-khho/0.jpg)](https://www.youtube.com/watch?v=S9UzEn-khho "HoloLensAppManager Demo")
+
 ## Setup
 ### Copy template files
 - Copy `HoloLensAppManager\Properties\settings.resw.template` to `HoloLensAppManager\Properties\settings.resw`
