@@ -476,7 +476,7 @@ namespace HoloLensAppManager.ViewModels
 
             indicator = new BusyIndicator()
             {
-                Message = "ただいま処理中です。しばらくお待ちください..."
+                Message = r.GetString("Install_BusyIndicatorMessage")
             };
         }
 
@@ -639,8 +639,6 @@ namespace HoloLensAppManager.ViewModels
                 connectionAddress = $"https://{Address}";
             }
 
-            bool allowUntrusted = true;
-
             portal = new DevicePortal(
                 new DefaultDevicePortalConnection(connectionAddress, Username, Password));
 
@@ -687,7 +685,7 @@ namespace HoloLensAppManager.ViewModels
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
                     {
                         ConnectionStatus = ConnectionState.Connected;
-                        SuccessMessage = "接続に成功しました";
+                        SuccessMessage = r.GetString("Install_ConnectionSuccessMessage");
                     });
 
                 }
@@ -709,6 +707,7 @@ namespace HoloLensAppManager.ViewModels
                 // with acceptUntrustedCerts set to true. This will enable untrusted connections for the
                 // remainder of this session.
                 Certificate certificate = null;
+                bool allowUntrusted = true;
                 if (allowUntrusted)
                 {
                     certificate = await portal.GetRootDeviceCertificateAsync(true);

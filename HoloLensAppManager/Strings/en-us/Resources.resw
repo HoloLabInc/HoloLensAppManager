@@ -220,11 +220,17 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>Open the download folder.</value>
   </data>
+  <data name="Install_BusyIndicatorMessage" xml:space="preserve">
+    <value>Processing, please wait a moment...</value>
+  </data>
   <data name="Install_ConnectingMessage" xml:space="preserve">
     <value>Now connecting...</value>
   </data>
   <data name="Install_ConnectionFailureMessage" xml:space="preserve">
     <value>Connection failed.</value>
+  </data>
+  <data name="Install_ConnectionSuccessMessage" xml:space="preserve">
+    <value>Connection successed.</value>
   </data>
   <data name="Install_Sort_DateAsc" xml:space="preserve">
     <value>Update time (oldest)</value>

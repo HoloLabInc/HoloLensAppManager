@@ -220,11 +220,17 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>ダウンロード済みアプリパッケージを表示</value>
   </data>
+  <data name="Install_BusyIndicatorMessage" xml:space="preserve">
+    <value>ただいま処理中です。しばらくお待ちください...</value>
+  </data>
   <data name="Install_ConnectingMessage" xml:space="preserve">
     <value>接続中です</value>
   </data>
   <data name="Install_ConnectionFailureMessage" xml:space="preserve">
     <value>接続に失敗しました</value>
+  </data>
+  <data name="Install_ConnectionSuccessMessage" xml:space="preserve">
+    <value>接続に成功しました</value>
   </data>
   <data name="Install_Sort_DateAsc" xml:space="preserve">
     <value>更新日（古い順）</value>
