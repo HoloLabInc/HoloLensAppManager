@@ -220,6 +220,9 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>ダウンロード済みアプリパッケージを表示</value>
   </data>
+  <data name="Install_AppPackageNotFoundErrorMessage" xml:space="preserve">
+    <value>対応するアーキテクチャのアプリパッケージがありません</value>
+  </data>
   <data name="Install_BusyIndicatorMessage" xml:space="preserve">
     <value>ただいま処理中です。しばらくお待ちください...</value>
   </data>
@@ -231,6 +234,15 @@
   </data>
   <data name="Install_ConnectionSuccessMessage" xml:space="preserve">
     <value>接続に成功しました</value>
+  </data>
+  <data name="Install_DownloadErrorMessage" xml:space="preserve">
+    <value>{0} のダウンロードに失敗しました</value>
+  </data>
+  <data name="Install_DownloadingMessage" xml:space="preserve">
+    <value>{0} をダウンロードしています</value>
+  </data>
+  <data name="Install_InstallingMessage" xml:space="preserve">
+    <value>{0} をインストールしています</value>
   </data>
   <data name="Install_Sort_DateAsc" xml:space="preserve">
     <value>更新日（古い順）</value>

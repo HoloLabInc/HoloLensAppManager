@@ -530,6 +530,8 @@ namespace HoloLensAppManager.ViewModels
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             if (appForInstall == null)
             {
                 return;
@@ -544,16 +546,20 @@ namespace HoloLensAppManager.ViewModels
                 }
             }
 
+            var appName = appForInstall.AppInfo.Name;
+
+            var downloadingMessageTemplate = r.GetString("Install_DownloadingMessage");
+            var downloadingMessage = string.Format(downloadingMessageTemplate, appName);
+
             indicator = new BusyIndicator()
             {
-                Message = $"{appForInstall.AppInfo.Name} をダウンロードしています。しばらくお待ちください..."
+                Message = downloadingMessage
             };
             indicator.Show();
 
             ErrorMessage = "";
-            SuccessMessage = $"{appForInstall.AppInfo.Name} をダウンロードしています";
+            SuccessMessage = downloadingMessage;
 
-            var appName = appForInstall.AppInfo.Name;
             var version = appForInstall.SelectedVersion.ToString();
 
             SupportedArchitectureType supportedArchitecture = SupportedArchitectureType.None;
@@ -573,10 +579,11 @@ namespace HoloLensAppManager.ViewModels
                 {
                     case DownloadErrorType.UnknownError:
                     case DownloadErrorType.NetworkError:
-                        ErrorMessage = $"{appForInstall.AppInfo.Name} のダウンロードに失敗しました";
+                        var downloadErrorMessageTemplate = r.GetString("Install_DownloadErrorMessage");
+                        ErrorMessage = string.Format(downloadErrorMessageTemplate, appForInstall.AppInfo.Name);
                         break;
                     case DownloadErrorType.NotSupportedArchitecture:
-                        ErrorMessage = $"対応するアーキテクチャのアプリパッケージがありません";
+                        ErrorMessage = r.GetString("Install_AppPackageNotFoundErrorMessage");
                         break;
                 }
 
@@ -585,19 +592,33 @@ namespace HoloLensAppManager.ViewModels
             }
             else
             {
+                indicator.Hide();
+                indicator = new BusyIndicator()
+                {
+                    Message = r.GetString("Install_ConnectingMessage")
+                };
+                indicator.Show();
+
                 var result = await ConnectToDevice();
                 if (result)
                 {
+                    var installingMessageTemplate = r.GetString("Install_InstallingMessage");
+                    var installingMessage = string.Format(installingMessageTemplate, appName);
+
                     indicator.Hide();
                     indicator = new BusyIndicator()
                     {
-                        Message = $"{appForInstall.AppInfo.Name} をインストールしています。しばらくお待ちください..."
+                        Message = installingMessage
                     };
                     indicator.Show();
 
-                    SuccessMessage = $"{appForInstall.AppInfo.Name} をインストールしています";
+                    SuccessMessage = installingMessage;
                     ErrorMessage = "";
                     await InstallPackageAsync(app);
+                    indicator.Hide();
+                }
+                else
+                {
                     indicator.Hide();
                 }
             }
