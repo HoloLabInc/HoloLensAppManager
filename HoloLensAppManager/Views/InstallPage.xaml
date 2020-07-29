@@ -105,12 +105,12 @@
                     <RadioButton Content="HoloLens1" Tag="HoloLens1" IsChecked="{x:Bind Mode=TwoWay, Path=ViewModel.TargetIsHoloLens1}"
                                  VerticalAlignment="Top"/>
                     <TextBox 
-                     x:Uid="SearchTextBox"
+                     x:Uid="Install_SearchTextBox"
                      Margin="10,0,0,0"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
                      Width="200"
-                     PlaceholderText="検索" Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <ComboBox PlaceholderText="ソート条件" Width="200" VerticalAlignment="Top" Margin="40,0,0,0"
                               ItemsSource="{x:Bind ViewModel.SortConditions}"
@@ -159,7 +159,7 @@
                             <ComboBox x:Name="VersionsCombo" Grid.Column="1" Height="30" Width="100" Margin="20 0"  DisplayMemberPath="Display" VerticalAlignment="Center"
                                       ItemsSource="{x:Bind Path=SortedVersions, Mode=OneWay}" SelectedItem="{x:Bind Mode=TwoWay, Path=SelectedVersion}"/>
 
-                            <Button x:Uid="Install_Install" Grid.Column="2" Content="インストール" VerticalAlignment="Center">
+                            <Button x:Uid="Install_Install" Grid.Column="2" Content="インストール" VerticalAlignment="Center" Width="80">
                                 <Interactivity:Interaction.Behaviors>
                                     <Core:EventTriggerBehavior EventName="Click">
                                         <Core:InvokeCommandAction Command="{Binding ViewModel.InstallCommand, ElementName=page}" CommandParameter="{Binding}" />
@@ -167,7 +167,7 @@
                                 </Interactivity:Interaction.Behaviors>
                             </Button>
 
-                            <Button x:Uid="Install_Edit"  Grid.Column="3" Content="編集" VerticalAlignment="Center" Margin="40 0 0 0">
+                            <Button x:Uid="Install_Edit"  Grid.Column="3" Content="編集" VerticalAlignment="Center" Margin="40 0 0 0" Width="50">
                                 <Interactivity:Interaction.Behaviors>
                                     <Core:EventTriggerBehavior EventName="Click">
                                         <Core:InvokeCommandAction Command="{Binding ViewModel.EditCommand, ElementName=page}" CommandParameter="{Binding}" />

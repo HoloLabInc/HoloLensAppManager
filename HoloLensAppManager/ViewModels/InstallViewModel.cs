@@ -417,13 +417,15 @@ namespace HoloLensAppManager.ViewModels
 
         public InstallViewModel()
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             // 検索項目の設定
             var sortConditionTexts = new Dictionary<SortConditionType, string>()
             {
-                { SortConditionType.UpdateDateDescending, "更新日（新しい順）" },
-                { SortConditionType.UpdateDateAscending, "更新日（古い順）" },
-                { SortConditionType.AppNameAscending, "アプリ名（昇順）" },
-                { SortConditionType.AppNameDescending, "アプリ名（降順）" }
+                { SortConditionType.UpdateDateDescending, r.GetString("Install_Sort_DateDesc") },
+                { SortConditionType.UpdateDateAscending, r.GetString("Install_Sort_DateAsc") },
+                { SortConditionType.AppNameAscending, r.GetString("Install_Sort_NameAsc") },
+                { SortConditionType.AppNameDescending, r.GetString("Install_Sort_NameDesc") }
             };
 
             SortConditions = new List<string>();
@@ -445,7 +447,7 @@ namespace HoloLensAppManager.ViewModels
             Username = LoadSettingData(localSettings, UsernameSettingKey);
             Password = LoadSettingData(localSettings, PasswordSettingKey);
             var targetDevice = LoadSettingData(localSettings, TargetDeviceSettingKey);
-            if(targetDevice == "HoloLens1")
+            if (targetDevice == "HoloLens1")
             {
                 TargetIsHoloLens1 = true;
             }
@@ -474,7 +476,7 @@ namespace HoloLensAppManager.ViewModels
 
             indicator = new BusyIndicator()
             {
-                Message = "ただいま処理中です。しばらくお待ちください..."
+                Message = r.GetString("Install_BusyIndicatorMessage")
             };
         }
 
@@ -528,6 +530,8 @@ namespace HoloLensAppManager.ViewModels
 
         private async Task InstallApplication(AppInfoForInstall appForInstall)
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             if (appForInstall == null)
             {
                 return;
@@ -542,16 +546,20 @@ namespace HoloLensAppManager.ViewModels
                 }
             }
 
+            var appName = appForInstall.AppInfo.Name;
+
+            var downloadingMessageTemplate = r.GetString("Install_DownloadingMessage");
+            var downloadingMessage = string.Format(downloadingMessageTemplate, appName);
+
             indicator = new BusyIndicator()
             {
-                Message = $"{appForInstall.AppInfo.Name} をダウンロードしています。しばらくお待ちください..."
+                Message = downloadingMessage
             };
             indicator.Show();
 
             ErrorMessage = "";
-            SuccessMessage = $"{appForInstall.AppInfo.Name} をダウンロードしています";
+            SuccessMessage = downloadingMessage;
 
-            var appName = appForInstall.AppInfo.Name;
             var version = appForInstall.SelectedVersion.ToString();
 
             SupportedArchitectureType supportedArchitecture = SupportedArchitectureType.None;
@@ -571,10 +579,11 @@ namespace HoloLensAppManager.ViewModels
                 {
                     case DownloadErrorType.UnknownError:
                     case DownloadErrorType.NetworkError:
-                        ErrorMessage = $"{appForInstall.AppInfo.Name} のダウンロードに失敗しました";
+                        var downloadErrorMessageTemplate = r.GetString("Install_DownloadErrorMessage");
+                        ErrorMessage = string.Format(downloadErrorMessageTemplate, appForInstall.AppInfo.Name);
                         break;
                     case DownloadErrorType.NotSupportedArchitecture:
-                        ErrorMessage = $"対応するアーキテクチャのアプリパッケージがありません";
+                        ErrorMessage = r.GetString("Install_AppPackageNotFoundErrorMessage");
                         break;
                 }
 
@@ -583,19 +592,33 @@ namespace HoloLensAppManager.ViewModels
             }
             else
             {
+                indicator.Hide();
+                indicator = new BusyIndicator()
+                {
+                    Message = r.GetString("Install_ConnectingMessage")
+                };
+                indicator.Show();
+
                 var result = await ConnectToDevice();
                 if (result)
                 {
+                    var installingMessageTemplate = r.GetString("Install_InstallingMessage");
+                    var installingMessage = string.Format(installingMessageTemplate, appName);
+
                     indicator.Hide();
                     indicator = new BusyIndicator()
                     {
-                        Message = $"{appForInstall.AppInfo.Name} をインストールしています。しばらくお待ちください..."
+                        Message = installingMessage
                     };
                     indicator.Show();
 
-                    SuccessMessage = $"{appForInstall.AppInfo.Name} をインストールしています";
+                    SuccessMessage = installingMessage;
                     ErrorMessage = "";
                     await InstallPackageAsync(app);
+                    indicator.Hide();
+                }
+                else
+                {
                     indicator.Hide();
                 }
             }
@@ -613,12 +636,14 @@ namespace HoloLensAppManager.ViewModels
 
         private async Task<bool> ConnectToDevice()
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
             {
                 Console.WriteLine("Connecting...");
                 ConnectionStatus = ConnectionState.Connecting;
 
-                SuccessMessage = "接続中";
+                SuccessMessage = r.GetString("Install_ConnectingMessage");
                 ErrorMessage = "";
 
             });
@@ -634,8 +659,6 @@ namespace HoloLensAppManager.ViewModels
             {
                 connectionAddress = $"https://{Address}";
             }
-
-            bool allowUntrusted = true;
 
             portal = new DevicePortal(
                 new DefaultDevicePortalConnection(connectionAddress, Username, Password));
@@ -683,20 +706,18 @@ namespace HoloLensAppManager.ViewModels
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
                     {
                         ConnectionStatus = ConnectionState.Connected;
-                        SuccessMessage = "接続に成功しました";
+                        SuccessMessage = r.GetString("Install_ConnectionSuccessMessage");
                     });
 
                 }
                 else if(connectArgs.Status == DeviceConnectionStatus.Failed)
                 {
-                    //sb.AppendLine("Failed to connect to the device.");
-                    //sb.AppendLine(connectArgs.Message);
                     tcs.SetResult(false);
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
                     {
                         ConnectionStatus = ConnectionState.NotConnected;
                         SuccessMessage = "";
-                        ErrorMessage = "接続に失敗しました";
+                        ErrorMessage = r.GetString("Install_ConnectionFailureMessage");
                     });
                 }
             };
@@ -707,6 +728,7 @@ namespace HoloLensAppManager.ViewModels
                 // with acceptUntrustedCerts set to true. This will enable untrusted connections for the
                 // remainder of this session.
                 Certificate certificate = null;
+                bool allowUntrusted = true;
                 if (allowUntrusted)
                 {
                     certificate = await portal.GetRootDeviceCertificateAsync(true);
@@ -721,7 +743,7 @@ namespace HoloLensAppManager.ViewModels
                 {
                     ConnectionStatus = ConnectionState.NotConnected;
                     SuccessMessage = "";
-                    ErrorMessage = "接続に失敗しました";
+                    ErrorMessage = r.GetString("Install_ConnectionFailureMessage");
                     indicator.Hide();
                 });
                 return false;

@@ -57,26 +57,26 @@
             </Grid.RowDefinitions>
 
             <StackPanel>
-                <TextBox TextWrapping="NoWrap" Text="{x:Bind Mode=TwoWay, Path=ViewModel.AppInfoForInstall.AppInfo.DeveloperName}" Header="開発者" Height="60" HorizontalAlignment="Stretch" Margin="0 0 0 20" VerticalAlignment="Center" Padding="8 6 "/>
-                <TextBox TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Header="アプリケーションの説明" Text="{x:Bind Mode=TwoWay, Path=ViewModel.AppInfoForInstall.AppInfo.Description}" VerticalAlignment="Top" Height="200" HorizontalAlignment="Stretch" Margin="0 0 0 10" Padding="8 6"/>
-                <Button x:Name="connectToDevice" Content="保存" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Height="32" Margin="{StaticResource Margin}" Command="{x:Bind Path=ViewModel.SaveCommand}"/>
+                <TextBox x:Uid="EditApplication_Developer" TextWrapping="NoWrap" Text="{x:Bind Mode=TwoWay, Path=ViewModel.AppInfoForInstall.AppInfo.DeveloperName}" Header="開発者" Height="60" HorizontalAlignment="Stretch" Margin="0 0 0 20" VerticalAlignment="Center" Padding="8 6 "/>
+                <TextBox x:Uid="EditApplication_Description" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Header="アプリケーションの説明" Text="{x:Bind Mode=TwoWay, Path=ViewModel.AppInfoForInstall.AppInfo.Description}" VerticalAlignment="Top" Height="200" HorizontalAlignment="Stretch" Margin="0 0 0 10" Padding="8 6"/>
+                <Button x:Uid="EditApplication_Save" x:Name="connectToDevice" Content="保存" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Height="32" Margin="{StaticResource Margin}" Command="{x:Bind Path=ViewModel.SaveCommand}"/>
                 <TextBlock Text="{x:Bind ViewModel.SaveErrorMessage, Mode=OneWay}" FontSize="16px" Foreground="#dc3545"/>
             </StackPanel>
 
             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1" Height="1" Margin="0 10" VerticalAlignment="Top"/>
 
             <StackPanel Grid.Row="2" Orientation="Vertical">
-                <ComboBox x:Name="VersionsCombo" Grid.Column="1" Height="60" Width="200" Margin="0 0" Header="特定バージョンの削除" ItemsSource="{x:Bind ViewModel.AppInfoForInstall.SortedVersions, Mode=OneWay}" DisplayMemberPath="Display" VerticalAlignment="Center"
+                <ComboBox x:Uid="EditApplication_DeleteSpecificVersionCombo" x:Name="VersionsCombo" Grid.Column="1" Height="60" Width="200" Margin="0 0" Header="特定バージョンの削除" ItemsSource="{x:Bind ViewModel.AppInfoForInstall.SortedVersions, Mode=OneWay}" DisplayMemberPath="Display" VerticalAlignment="Center"
                                       SelectedItem="{x:Bind ViewModel.AppInfoForInstall.SelectedVersion, Mode=TwoWay}"/>
-                <Button  Content="削除" HorizontalAlignment="Left" VerticalAlignment="Center" Width="93" Height="32" Margin="{StaticResource Margin}" Command="{x:Bind Path=ViewModel.RemoveSelectedVersionCommand}"/>
+                <Button x:Uid="EditApplication_DeleteSpecificVersion" Content="削除" HorizontalAlignment="Left" VerticalAlignment="Center" Width="93" Height="32" Margin="{StaticResource Margin}" Command="{x:Bind Path=ViewModel.RemoveSelectedVersionCommand}"/>
                 <TextBlock Text="{x:Bind ViewModel.RemoveSelectedVersionErrorMessage, Mode=OneWay}" FontSize="16px" Foreground="#dc3545"/>
             </StackPanel>
 
             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="Black" BorderThickness="1" Height="1" Margin="0 10" VerticalAlignment="Top"/>
 
             <StackPanel Grid.Row="4">
-                <TextBox TextWrapping="NoWrap" Text="{x:Bind Mode=TwoWay, Path=ViewModel.RemoveApplicationName}" Header="アプリケーションの削除" PlaceholderText="アプリケーション名を入力" Height="60" HorizontalAlignment="Stretch" Margin="0 0 0 0" VerticalAlignment="Center" Padding="8 6"/>
-                <Button  Content="削除" HorizontalAlignment="Left" VerticalAlignment="Center" Width="93" Height="32" Margin="{StaticResource Margin}"  Command="{x:Bind Path=ViewModel.RemoveCommand}"/>
+                <TextBox x:Uid="EditApplication_DeleteTextBox" TextWrapping="NoWrap" Text="{x:Bind Mode=TwoWay, Path=ViewModel.RemoveApplicationName}" Header="アプリケーションの削除" PlaceholderText="アプリケーション名を入力" Height="60" HorizontalAlignment="Stretch" Margin="0 0 0 0" VerticalAlignment="Center" Padding="8 6"/>
+                <Button x:Uid="EditApplication_Delete" Content="削除" HorizontalAlignment="Left" VerticalAlignment="Center" Width="93" Height="32" Margin="{StaticResource Margin}"  Command="{x:Bind Path=ViewModel.RemoveCommand}"/>
                 <TextBlock Text="{x:Bind ViewModel.RemoveErrorMessage, Mode=OneWay}" FontSize="16px" Foreground="#dc3545"/>
             </StackPanel>
 

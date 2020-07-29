@@ -220,4 +220,94 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>ダウンロード済みアプリパッケージを表示</value>
   </data>
+  <data name="EditApplication_Delete.Content" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="EditApplication_DeleteSpecificVersion.Content" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="EditApplication_DeleteSpecificVersionCombo.Header" xml:space="preserve">
+    <value>特定バージョンの削除</value>
+  </data>
+  <data name="EditApplication_DeleteTextBox.Header" xml:space="preserve">
+    <value>アプリケーションの削除</value>
+  </data>
+  <data name="EditApplication_DeleteTextBox.PlaceholderText" xml:space="preserve">
+    <value>アプリケーション名を入力</value>
+  </data>
+  <data name="EditApplication_Description.Header" xml:space="preserve">
+    <value>アプリケーションの説明</value>
+  </data>
+  <data name="EditApplication_Developer.Header" xml:space="preserve">
+    <value>開発者</value>
+  </data>
+  <data name="EditApplication_PageTitleTemplate" xml:space="preserve">
+    <value>{0} の編集</value>
+  </data>
+  <data name="EditApplication_RemoveApplicationFailed" xml:space="preserve">
+    <value>アプリケーションの削除に失敗しました</value>
+  </data>
+  <data name="EditApplication_RemoveSelectedVersionFailure" xml:space="preserve">
+    <value>削除に失敗しました</value>
+  </data>
+  <data name="EditApplication_RemoveSelectedVersionSuccessTemplate" xml:space="preserve">
+    <value>バージョン: {0} を削除しました</value>
+  </data>
+  <data name="EditApplication_RemovingApllication" xml:space="preserve">
+    <value>アプリケーションを削除しています</value>
+  </data>
+  <data name="EditApplication_Save.Content" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="EditApplication_SaveAppInfoFailure" xml:space="preserve">
+    <value>保存に失敗しました</value>
+  </data>
+  <data name="EditApplication_WrongApplicationName" xml:space="preserve">
+    <value>アプリケーション名が間違っています</value>
+  </data>
+  <data name="Install_AppPackageNotFoundErrorMessage" xml:space="preserve">
+    <value>対応するアーキテクチャのアプリパッケージがありません</value>
+  </data>
+  <data name="Install_BusyIndicatorMessage" xml:space="preserve">
+    <value>ただいま処理中です。しばらくお待ちください...</value>
+  </data>
+  <data name="Install_ConnectingMessage" xml:space="preserve">
+    <value>接続中です</value>
+  </data>
+  <data name="Install_ConnectionFailureMessage" xml:space="preserve">
+    <value>接続に失敗しました</value>
+  </data>
+  <data name="Install_ConnectionSuccessMessage" xml:space="preserve">
+    <value>接続に成功しました</value>
+  </data>
+  <data name="Install_DownloadErrorMessage" xml:space="preserve">
+    <value>{0} のダウンロードに失敗しました</value>
+  </data>
+  <data name="Install_DownloadingMessage" xml:space="preserve">
+    <value>{0} をダウンロードしています</value>
+  </data>
+  <data name="Install_InstallingMessage" xml:space="preserve">
+    <value>{0} をインストールしています</value>
+  </data>
+  <data name="Install_SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Install_Sort_DateAsc" xml:space="preserve">
+    <value>更新日（古い順）</value>
+  </data>
+  <data name="Install_Sort_DateDesc" xml:space="preserve">
+    <value>更新日（新しい順）</value>
+  </data>
+  <data name="Install_Sort_NameAsc" xml:space="preserve">
+    <value>アプリ名（昇順）</value>
+  </data>
+  <data name="Install_Sort_NameDesc" xml:space="preserve">
+    <value>アプリ名（降順）</value>
+  </data>
+  <data name="Setting_ClearCacheFailureMessage" xml:space="preserve">
+    <value>ローカルキャッシュの削除に失敗しました</value>
+  </data>
+  <data name="Setting_ClearCacheSuccessMessage" xml:space="preserve">
+    <value>ローカルキャッシュを削除しました</value>
+  </data>
 </root>

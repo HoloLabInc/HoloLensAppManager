@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 
@@ -57,17 +58,19 @@ namespace HoloLensAppManager.ViewModels
 
         private async Task ClearCache()
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             SuccessMessage = "";
             ErrorMessage = "";
 
             var result = await uploader.ClearCache();
             if (result)
             {
-                SuccessMessage = "削除しました";
+                SuccessMessage = r.GetString("Setting_ClearCacheSuccessMessage");
             }
             else
             {
-                ErrorMessage = "削除に失敗しました";
+                ErrorMessage = r.GetString("Setting_ClearCacheFailureMessage");
             }
         }
     }

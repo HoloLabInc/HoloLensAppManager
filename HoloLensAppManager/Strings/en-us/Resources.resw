@@ -220,4 +220,94 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>Open the download folder.</value>
   </data>
+  <data name="EditApplication_Delete.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EditApplication_DeleteSpecificVersion.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EditApplication_DeleteSpecificVersionCombo.Header" xml:space="preserve">
+    <value>Delete specific version</value>
+  </data>
+  <data name="EditApplication_DeleteTextBox.Header" xml:space="preserve">
+    <value>Delete application</value>
+  </data>
+  <data name="EditApplication_DeleteTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter application name</value>
+  </data>
+  <data name="EditApplication_Description.Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="EditApplication_Developer.Header" xml:space="preserve">
+    <value>Developer</value>
+  </data>
+  <data name="EditApplication_PageTitleTemplate" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="EditApplication_RemoveApplicationFailed" xml:space="preserve">
+    <value>Failed to remove the application.</value>
+  </data>
+  <data name="EditApplication_RemoveSelectedVersionFailure" xml:space="preserve">
+    <value>Failed to remove selected version.</value>
+  </data>
+  <data name="EditApplication_RemoveSelectedVersionSuccessTemplate" xml:space="preserve">
+    <value>The application has been removed (version {0}).</value>
+  </data>
+  <data name="EditApplication_RemovingApllication" xml:space="preserve">
+    <value>Removing the application.</value>
+  </data>
+  <data name="EditApplication_Save.Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="EditApplication_SaveAppInfoFailure" xml:space="preserve">
+    <value>Failed to save description.</value>
+  </data>
+  <data name="EditApplication_WrongApplicationName" xml:space="preserve">
+    <value>Wrong app name entered.</value>
+  </data>
+  <data name="Install_AppPackageNotFoundErrorMessage" xml:space="preserve">
+    <value>There are no app packages for the corresponding architecture.</value>
+  </data>
+  <data name="Install_BusyIndicatorMessage" xml:space="preserve">
+    <value>Processing, please wait a moment...</value>
+  </data>
+  <data name="Install_ConnectingMessage" xml:space="preserve">
+    <value>Now connecting...</value>
+  </data>
+  <data name="Install_ConnectionFailureMessage" xml:space="preserve">
+    <value>Connection failed.</value>
+  </data>
+  <data name="Install_ConnectionSuccessMessage" xml:space="preserve">
+    <value>Connection successed.</value>
+  </data>
+  <data name="Install_DownloadErrorMessage" xml:space="preserve">
+    <value>Failed to download {0}.</value>
+  </data>
+  <data name="Install_DownloadingMessage" xml:space="preserve">
+    <value>Downloading {0}...</value>
+  </data>
+  <data name="Install_InstallingMessage" xml:space="preserve">
+    <value>Installing {0}...</value>
+  </data>
+  <data name="Install_SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Install_Sort_DateAsc" xml:space="preserve">
+    <value>Update time (oldest)</value>
+  </data>
+  <data name="Install_Sort_DateDesc" xml:space="preserve">
+    <value>Update time (recent)</value>
+  </data>
+  <data name="Install_Sort_NameAsc" xml:space="preserve">
+    <value>App name (A→Z)</value>
+  </data>
+  <data name="Install_Sort_NameDesc" xml:space="preserve">
+    <value>App name (Z→A)</value>
+  </data>
+  <data name="Setting_ClearCacheFailureMessage" xml:space="preserve">
+    <value>Failed to clear local cache.</value>
+  </data>
+  <data name="Setting_ClearCacheSuccessMessage" xml:space="preserve">
+    <value>Local cache is cleared.</value>
+  </data>
 </root>
