@@ -256,4 +256,10 @@
   <data name="Install_Sort_NameDesc" xml:space="preserve">
     <value>アプリ名（降順）</value>
   </data>
+  <data name="Setting_ClearCacheFailureMessage" xml:space="preserve">
+    <value>ローカルキャッシュの削除に失敗しました</value>
+  </data>
+  <data name="Setting_ClearCacheSuccessMessage" xml:space="preserve">
+    <value>ローカルキャッシュを削除しました</value>
+  </data>
 </root>

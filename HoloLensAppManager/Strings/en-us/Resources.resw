@@ -256,4 +256,10 @@
   <data name="Install_Sort_NameDesc" xml:space="preserve">
     <value>App name (Z→A)</value>
   </data>
+  <data name="Setting_ClearCacheFailureMessage" xml:space="preserve">
+    <value>Failed to clear local cache.</value>
+  </data>
+  <data name="Setting_ClearCacheSuccessMessage" xml:space="preserve">
+    <value>Local cache is cleared.</value>
+  </data>
 </root>
