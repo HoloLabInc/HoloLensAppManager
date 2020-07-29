@@ -220,6 +220,27 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>Open the download folder.</value>
   </data>
+  <data name="EditApplication_PageTitleTemplate" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="EditApplication_RemoveApplicationFailed" xml:space="preserve">
+    <value>Failed to remove the application.</value>
+  </data>
+  <data name="EditApplication_RemoveSelectedVersionFailure" xml:space="preserve">
+    <value>Failed to remove selected version.</value>
+  </data>
+  <data name="EditApplication_RemoveSelectedVersionSuccessTemplate" xml:space="preserve">
+    <value>The application has been removed (version {0}).</value>
+  </data>
+  <data name="EditApplication_RemovingApllication" xml:space="preserve">
+    <value>Removing the application.</value>
+  </data>
+  <data name="EditApplication_SaveAppInfoFailure" xml:space="preserve">
+    <value>Failed to save description.</value>
+  </data>
+  <data name="EditApplication_WrongApplicationName" xml:space="preserve">
+    <value>Wrong app name entered.</value>
+  </data>
   <data name="Install_AppPackageNotFoundErrorMessage" xml:space="preserve">
     <value>There are no app packages for the corresponding architecture.</value>
   </data>

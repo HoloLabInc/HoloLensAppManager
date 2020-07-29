@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.Resources;
 
 namespace HoloLensAppManager.ViewModels
 {
@@ -91,7 +92,10 @@ namespace HoloLensAppManager.ViewModels
             set
             {
                 this.Set(ref this.appInfoForInstall, value);
-                PageTitle = $"{AppInfoForInstall?.AppInfo?.Name} の編集";
+
+                var r = ResourceLoader.GetForCurrentView();
+                var pageTitleTemplate = r.GetString("EditApplication_PageTitleTemplate");
+                PageTitle = string.Format(pageTitleTemplate, AppInfoForInstall?.AppInfo?.Name);
             }
         }
 
@@ -99,9 +103,11 @@ namespace HoloLensAppManager.ViewModels
 
         private async Task RemoveApp()
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             if (AppInfoForInstall?.AppInfo?.Name == RemoveApplicationName)
             {
-                RemoveErrorMessage = "アプリケーションを削除しています";
+                RemoveErrorMessage = r.GetString("EditApplication_RemovingApllication");
                 var result = await uploader.Delete(AppInfoForInstall.AppInfo);
                 if (result)
                 {
@@ -109,20 +115,22 @@ namespace HoloLensAppManager.ViewModels
                 }
                 else
                 {
-                    RemoveErrorMessage = "アプリケーションの削除に失敗しました";
+                    RemoveErrorMessage = r.GetString("EditApplication_RemoveApplicationFailed");
                 }
             }
             else
             {
-                RemoveErrorMessage = "アプリケーション名が間違っています";
+                RemoveErrorMessage = r.GetString("EditApplication_WrongApplicationName");
             }
         }
 
         private async Task RemoveSelectedVersion()
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             RemoveSelectedVersionErrorMessage = "";
             var removeVersion = AppInfoForInstall.SelectedVersion;
-            if(removeVersion == null)
+            if (removeVersion == null)
             {
                 return;
             }
@@ -130,15 +138,16 @@ namespace HoloLensAppManager.ViewModels
             var result = await uploader.DeleteApplication(AppInfoForInstall.AppInfo.Name, removeVersion.ToString());
             if (result)
             {
-                RemoveSelectedVersionErrorMessage = $"バージョン: {removeVersion.ToString()} を削除しました";
+                var removeVersionTemplate = r.GetString("EditApplication_RemoveSelectedVersionSuccessTemplate");
+                RemoveSelectedVersionErrorMessage = string.Format(removeVersionTemplate, removeVersion.ToString());
+
                 AppInfoForInstall.AppInfo.Versions.Remove(removeVersion);
                 AppInfoForInstall.SelectLatestVersion();
             }
             else
             {
-                RemoveSelectedVersionErrorMessage = "削除に失敗しました";
+                RemoveSelectedVersionErrorMessage = r.GetString("EditApplication_RemoveSelectedVersionFailure");
             }
-
         }
 
 
@@ -158,7 +167,8 @@ namespace HoloLensAppManager.ViewModels
             }
             else
             {
-                SaveErrorMessage = "保存に失敗しました";
+                var r = ResourceLoader.GetForCurrentView();
+                SaveErrorMessage = r.GetString("EditApplication_SaveAppInfoFailure");
             }
         }
     }
