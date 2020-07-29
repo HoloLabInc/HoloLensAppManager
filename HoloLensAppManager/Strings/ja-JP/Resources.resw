@@ -220,6 +220,27 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>ダウンロード済みアプリパッケージを表示</value>
   </data>
+  <data name="EditApplication_Delete.Content" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="EditApplication_DeleteSpecificVersion.Content" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="EditApplication_DeleteSpecificVersionCombo.Header" xml:space="preserve">
+    <value>特定バージョンの削除</value>
+  </data>
+  <data name="EditApplication_DeleteTextBox.Header" xml:space="preserve">
+    <value>アプリケーションの削除</value>
+  </data>
+  <data name="EditApplication_DeleteTextBox.PlaceholderText" xml:space="preserve">
+    <value>アプリケーション名を入力</value>
+  </data>
+  <data name="EditApplication_Description.Header" xml:space="preserve">
+    <value>アプリケーションの説明</value>
+  </data>
+  <data name="EditApplication_Developer.Header" xml:space="preserve">
+    <value>開発者</value>
+  </data>
   <data name="EditApplication_PageTitleTemplate" xml:space="preserve">
     <value>{0} の編集</value>
   </data>
@@ -234,6 +255,9 @@
   </data>
   <data name="EditApplication_RemovingApllication" xml:space="preserve">
     <value>アプリケーションを削除しています</value>
+  </data>
+  <data name="EditApplication_Save.Content" xml:space="preserve">
+    <value>保存</value>
   </data>
   <data name="EditApplication_SaveAppInfoFailure" xml:space="preserve">
     <value>保存に失敗しました</value>
