@@ -220,4 +220,22 @@
   <data name="Setting_openFolder.Content" xml:space="preserve">
     <value>Open the download folder.</value>
   </data>
+  <data name="Install_ConnectingMessage" xml:space="preserve">
+    <value>Now connecting...</value>
+  </data>
+  <data name="Install_ConnectionFailureMessage" xml:space="preserve">
+    <value>Connection failed.</value>
+  </data>
+  <data name="Install_Sort_DateAsc" xml:space="preserve">
+    <value>Update time (oldest)</value>
+  </data>
+  <data name="Install_Sort_DateDesc" xml:space="preserve">
+    <value>Update time (recent)</value>
+  </data>
+  <data name="Install_Sort_NameAsc" xml:space="preserve">
+    <value>App name (A→Z)</value>
+  </data>
+  <data name="Install_Sort_NameDesc" xml:space="preserve">
+    <value>App name (Z→A)</value>
+  </data>
 </root>

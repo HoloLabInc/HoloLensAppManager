@@ -417,13 +417,15 @@ namespace HoloLensAppManager.ViewModels
 
         public InstallViewModel()
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             // 検索項目の設定
             var sortConditionTexts = new Dictionary<SortConditionType, string>()
             {
-                { SortConditionType.UpdateDateDescending, "更新日（新しい順）" },
-                { SortConditionType.UpdateDateAscending, "更新日（古い順）" },
-                { SortConditionType.AppNameAscending, "アプリ名（昇順）" },
-                { SortConditionType.AppNameDescending, "アプリ名（降順）" }
+                { SortConditionType.UpdateDateDescending, r.GetString("Install_Sort_DateDesc") },
+                { SortConditionType.UpdateDateAscending, r.GetString("Install_Sort_DateAsc") },
+                { SortConditionType.AppNameAscending, r.GetString("Install_Sort_NameAsc") },
+                { SortConditionType.AppNameDescending, r.GetString("Install_Sort_NameDesc") }
             };
 
             SortConditions = new List<string>();
@@ -445,7 +447,7 @@ namespace HoloLensAppManager.ViewModels
             Username = LoadSettingData(localSettings, UsernameSettingKey);
             Password = LoadSettingData(localSettings, PasswordSettingKey);
             var targetDevice = LoadSettingData(localSettings, TargetDeviceSettingKey);
-            if(targetDevice == "HoloLens1")
+            if (targetDevice == "HoloLens1")
             {
                 TargetIsHoloLens1 = true;
             }
@@ -613,12 +615,14 @@ namespace HoloLensAppManager.ViewModels
 
         private async Task<bool> ConnectToDevice()
         {
+            var r = ResourceLoader.GetForCurrentView();
+
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
             {
                 Console.WriteLine("Connecting...");
                 ConnectionStatus = ConnectionState.Connecting;
 
-                SuccessMessage = "接続中";
+                SuccessMessage = r.GetString("Install_ConnectingMessage");
                 ErrorMessage = "";
 
             });
@@ -689,14 +693,12 @@ namespace HoloLensAppManager.ViewModels
                 }
                 else if(connectArgs.Status == DeviceConnectionStatus.Failed)
                 {
-                    //sb.AppendLine("Failed to connect to the device.");
-                    //sb.AppendLine(connectArgs.Message);
                     tcs.SetResult(false);
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
                     {
                         ConnectionStatus = ConnectionState.NotConnected;
                         SuccessMessage = "";
-                        ErrorMessage = "接続に失敗しました";
+                        ErrorMessage = r.GetString("Install_ConnectionFailureMessage");
                     });
                 }
             };
@@ -721,7 +723,7 @@ namespace HoloLensAppManager.ViewModels
                 {
                     ConnectionStatus = ConnectionState.NotConnected;
                     SuccessMessage = "";
-                    ErrorMessage = "接続に失敗しました";
+                    ErrorMessage = r.GetString("Install_ConnectionFailureMessage");
                     indicator.Hide();
                 });
                 return false;
