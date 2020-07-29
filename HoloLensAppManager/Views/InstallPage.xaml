@@ -105,12 +105,12 @@
                     <RadioButton Content="HoloLens1" Tag="HoloLens1" IsChecked="{x:Bind Mode=TwoWay, Path=ViewModel.TargetIsHoloLens1}"
                                  VerticalAlignment="Top"/>
                     <TextBox 
-                     x:Uid="SearchTextBox"
+                     x:Uid="Install_SearchTextBox"
                      Margin="10,0,0,0"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
                      Width="200"
-                     PlaceholderText="検索" Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{x:Bind Mode=TwoWay, Path=ViewModel.Query, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <ComboBox PlaceholderText="ソート条件" Width="200" VerticalAlignment="Top" Margin="40,0,0,0"
                               ItemsSource="{x:Bind ViewModel.SortConditions}"

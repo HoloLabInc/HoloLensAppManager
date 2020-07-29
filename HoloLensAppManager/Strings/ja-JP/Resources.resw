@@ -265,6 +265,9 @@
   <data name="Install_InstallingMessage" xml:space="preserve">
     <value>{0} をインストールしています</value>
   </data>
+  <data name="Install_SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>検索</value>
+  </data>
   <data name="Install_Sort_DateAsc" xml:space="preserve">
     <value>更新日（古い順）</value>
   </data>

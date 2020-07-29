@@ -265,6 +265,9 @@
   <data name="Install_InstallingMessage" xml:space="preserve">
     <value>Installing {0}...</value>
   </data>
+  <data name="Install_SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="Install_Sort_DateAsc" xml:space="preserve">
     <value>Update time (oldest)</value>
   </data>
