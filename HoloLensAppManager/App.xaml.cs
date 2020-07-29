@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Globalization;
 using HoloLensAppManager.Services;
 
 using Windows.ApplicationModel.Activation;
@@ -26,6 +26,9 @@ namespace HoloLensAppManager
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            // for debug
+            // CultureInfo.CurrentUICulture = new CultureInfo("en-US");
+
             if (!args.PrelaunchActivated)
             {
                 await ActivationService.ActivateAsync(args);
