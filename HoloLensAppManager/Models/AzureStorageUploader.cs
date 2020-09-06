@@ -789,13 +789,19 @@ namespace HoloLensAppManager.Models
 
         public Application ConvertToApplication()
         {
+            var dependencyIds = DependencyIds;
+            if (dependencyIds == null)
+            {
+                dependencyIds = new List<string>();
+            }
+
             return new Application()
             {
                 Name = Name,
                 DeveloperName = Developer,
                 Version = AppVersion,
                 AppPackageId = AppPackageId,
-                DependencyIds = DependencyIds,
+                DependencyIds = dependencyIds,
                 SupportedArchitecture = SupportedArchitecture
             };
         }
