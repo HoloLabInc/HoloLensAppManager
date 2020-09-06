@@ -7,6 +7,7 @@
     xmlns:fcu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:cu ="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:models="using:HoloLensAppManager.Models"
+    xmlns:h="using:HoloLensAppManager.Helpers"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:vm="using:HoloLensAppManager.ViewModels"
@@ -151,9 +152,9 @@
                                            Margin="0 8 0 0" Style="{StaticResource InstallAppUpdateTimeStyle}" HorizontalAlignment="Left"
                                            Text="{x:Bind System:String.Format('{0:yyyy/MM/dd}', AppInfo.UpdateAt)}"/>
 
-                                <TextBlock Text="{x:Bind Path=AppInfo.Name}" Style="{StaticResource InstallAppNameStyle}" HorizontalAlignment="Left" />
-                                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{x:Bind Path=AppInfo.DeveloperName}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,0"/>
-                                <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{x:Bind Path=AppInfo.Description}" Foreground="{StaticResource ThemeControlForegroundBaseMediumHighBrush}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,6"/>
+                                <TextBlock Text="{x:Bind Path=AppInfo.Name}" Style="{StaticResource InstallAppNameStyle}" HorizontalAlignment="Left" IsTextSelectionEnabled="True"/>
+                                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{x:Bind Path=AppInfo.DeveloperName}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,0" IsTextSelectionEnabled="True"/>
+                                <TextBlock Grid.Row="2" Grid.ColumnSpan="2" h:TextBlockExtension.FormattedText="{x:Bind Path=AppInfo.Description}" Foreground="{StaticResource ThemeControlForegroundBaseMediumHighBrush}" Style="{StaticResource InstallAppInfoStyle}" HorizontalAlignment="Left" Margin="20,6" IsTextSelectionEnabled="True"/>
                             </Grid>
 
                             <ComboBox x:Name="VersionsCombo" Grid.Column="1" Height="30" Width="100" Margin="20 0"  DisplayMemberPath="Display" VerticalAlignment="Center"
