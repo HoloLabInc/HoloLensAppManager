@@ -614,7 +614,12 @@ namespace HoloLensAppManager.ViewModels
 
                     SuccessMessage = installingMessage;
                     ErrorMessage = "";
-                    await InstallPackageAsync(app);
+                    var (installResult, installError) = await InstallPackageAsync(app);
+                    if (!installResult)
+                    {
+                        SuccessMessage = "";
+                        ErrorMessage = installError;
+                    }
                     indicator.Hide();
                 }
                 else
@@ -629,9 +634,38 @@ namespace HoloLensAppManager.ViewModels
             NavigationService.Navigate(typeof(EditApplicationPage), app);
         }
 
-        private async Task InstallPackageAsync(Application app)
+        private async Task<(bool, string)> InstallPackageAsync(Application app)
         {
-            await portal?.InstallApplicationAsync("", app.AppPackage, app.Dependencies);
+            // Install fails if app package name contains multibyte character
+            var originalPackage = app.AppPackage;
+            try
+            {
+                var folder = await originalPackage.GetParentAsync();
+                var tmpFolder = await folder.CreateFolderAsync("install", CreationCollisionOption.ReplaceExisting);
+
+                var installPackage = await CopyToFolder(tmpFolder, originalPackage, "package");
+                var dependencies = new List<StorageFile>();
+
+                var i = 0;
+                foreach (var dependency in app.Dependencies)
+                {
+                    var tmpDependency = await CopyToFolder(tmpFolder, dependency, $"dependency_{i++}");
+                    dependencies.Add(tmpDependency);
+                }
+                await portal?.InstallApplicationAsync("", installPackage, dependencies);
+                return (true, "");
+            }
+            catch (Exception e)
+            {
+                return (false, e.Message);
+            }
+        }
+
+        private async Task<StorageFile> CopyToFolder(StorageFolder folder, StorageFile file, string filename)
+        {
+            var extension = System.IO.Path.GetExtension(file.Path);
+            var copiedFile = await file.CopyAsync(folder, $"{filename}{extension}", NameCollisionOption.GenerateUniqueName);
+            return copiedFile;
         }
 
         private async Task<bool> ConnectToDevice()
