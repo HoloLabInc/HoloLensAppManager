@@ -652,7 +652,7 @@ namespace HoloLensAppManager.ViewModels
                     var tmpDependency = await CopyToFolder(tmpFolder, dependency, $"dependency_{i++}");
                     dependencies.Add(tmpDependency);
                 }
-                await portal?.InstallApplicationAsync("", installPackage, dependencies);
+                await portal?.InstallApplicationAsync(app.Name, installPackage, dependencies);
                 return (true, "");
             }
             catch (Exception e)
